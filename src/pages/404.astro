@@ -1,61 +1,29 @@
 ---
-import Base from '../layouts/Base.astro';
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
 ---
-<Base
-  title="404 — Fabio Brocca"
-  description="Page not found."
+<Desktop
+  title="Page not found — Fabio Brocca"
+  description="Error 404 — this page does not exist."
 >
-  <section class="section notfound">
-    <div class="container">
-      <p class="glitch mono">ERROR 404</p>
-      <h1>These aren't the pages<br />you're looking for.</h1>
-      <p class="muted lede">Move along… back to somewhere that exists.</p>
-      <div class="actions">
-        <a class="btn btn--solid" href="/">Go home</a>
-        <a class="btn" href="/blog/">Read the blog</a>
+  <MacWindow title="System Error" id="win-404" style="left:440px; top:220px; width:440px">
+    <div class="dlg-body">
+      <svg width="40" height="44" viewBox="0 0 32 36" shape-rendering="crispEdges" aria-hidden="true">
+        <circle cx="15" cy="22" r="12" fill="var(--c-warn,#fff)" stroke="#000" stroke-width="2"/>
+        <rect x="12" y="8" width="6" height="4" fill="#fff" stroke="#000" stroke-width="1.6"/>
+        <path d="M18 7 q6 -6 10 -3" fill="none" stroke="#000" stroke-width="2"/>
+        <rect x="27" y="1" width="4" height="4" fill="#000"/>
+        <rect x="12" y="19" width="2.4" height="5" fill="#000"/>
+        <rect x="17" y="19" width="2.4" height="5" fill="#000"/>
+      </svg>
+      <div class="txt">
+        <b style="font-family:var(--chicago); font-weight:normal">Sorry, a system error occurred.</b><br />
+        Error 404: the page you asked for does not exist. It may have been moved,
+        renamed, or dragged to the Trash.
       </div>
     </div>
-  </section>
-</Base>
-
-<style>
-  .notfound {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    text-align: center;
-  }
-
-  .notfound .container {
-    width: 100%;
-  }
-
-  .glitch {
-    color: var(--accent);
-    letter-spacing: 0.4em;
-    font-size: 0.9rem;
-    text-shadow: 0 0 18px var(--accent-glow);
-    animation: flicker 3s infinite;
-  }
-
-  @keyframes flicker {
-    0%, 100% { opacity: 1; }
-    92% { opacity: 1; }
-    93% { opacity: 0.4; }
-    94% { opacity: 1; }
-    97% { opacity: 0.6; }
-    98% { opacity: 1; }
-  }
-
-  .lede {
-    font-size: 1.15rem;
-  }
-
-  .actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-  }
-</style>
+    <div class="dlg-actions">
+      <a class="mbtn default" href="/">Restart</a>
+    </div>
+  </MacWindow>
+</Desktop>

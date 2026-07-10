@@ -1,0 +1,27 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+---
+<Desktop
+  title="Trash — Fabio Brocca"
+  description="The Trash. Where old website themes go."
+>
+  <MacWindow title="Trash" id="win-trash" style="left:420px; top:180px; width:440px">
+    <div class="fstatus">3 items · 42K in Trash · deleted July 2026</div>
+    <table class="flist">
+      <thead><tr><th>Name</th><th>Date</th><th>Kind</th></tr></thead>
+      <tbody>
+        <tr><td class="nm">star_wars_theme.zip</td><td class="dt">Jul 10, 2026</td><td>archive</td></tr>
+        <tr><td class="nm">starfield.js</td><td class="dt">Jul 10, 2026</td><td>script</td></tr>
+        <tr><td class="nm">dark_mode.css</td><td class="dt">Jul 10, 2026</td><td>stylesheet</td></tr>
+      </tbody>
+    </table>
+    <div class="dlg-body" style="padding-top:10px">
+      <p class="txt" style="font-size:12px; color:#444; font-style:italic; margin:0">
+        The previous theme of this website. It served honorably.
+        (I did once found, run, and sell an actual lightsaber company — see The Journey —
+        so it was never entirely unearned.)
+      </p>
+    </div>
+  </MacWindow>
+</Desktop>

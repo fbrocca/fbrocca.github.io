@@ -1,0 +1,13 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+import ResumeDoc from '../components/ResumeDoc.astro';
+---
+<Desktop
+  title="Résumé — Fabio Brocca"
+  description="Résumé of Fabio Brocca — Chief Product Officer at Xeneta, formerly Amazon and MSC. 15+ years of product leadership in freight, logistics, and AI."
+>
+  <MacWindow title="Résumé" id="win-resume" style="left:340px; top:56px; width:640px; height:660px" zoom={true}>
+    <ResumeDoc />
+  </MacWindow>
+</Desktop>

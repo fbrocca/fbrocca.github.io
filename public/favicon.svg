@@ -1,12 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0a0a0f"/>
-  <circle cx="14" cy="12" r="1.4" fill="#e9e9f2" opacity=".8"/>
-  <circle cx="50" cy="18" r="1" fill="#e9e9f2" opacity=".6"/>
-  <circle cx="42" cy="8" r="1.2" fill="#8ec2ff" opacity=".8"/>
-  <circle cx="10" cy="46" r="1" fill="#e9e9f2" opacity=".5"/>
-  <circle cx="55" cy="50" r="1.3" fill="#8ec2ff" opacity=".7"/>
-  <text x="32" y="42" font-family="'Space Grotesk',system-ui,sans-serif" font-size="26" font-weight="700" fill="#4f9dff" text-anchor="middle">FB</text>
-  <rect x="12" y="50" width="40" height="2.5" rx="1.25" fill="#4f9dff">
-    <animate attributeName="opacity" values="1;.6;1" dur="2s" repeatCount="indefinite"/>
-  </rect>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 40" shape-rendering="crispEdges">
+  <rect x="1" y="1" width="28" height="34" fill="#e9dbb9" stroke="#000" stroke-width="2"/>
+  <rect x="5" y="5" width="20" height="16" fill="#bfd8f2" stroke="#000" stroke-width="2"/>
+  <rect x="11" y="9" width="2" height="4" fill="#000"/>
+  <rect x="17" y="9" width="2" height="4" fill="#000"/>
+  <rect x="14" y="12" width="2" height="3" fill="#000"/>
+  <rect x="10" y="16" width="2" height="2" fill="#000"/>
+  <rect x="12" y="17" width="6" height="2" fill="#000"/>
+  <rect x="18" y="16" width="2" height="2" fill="#000"/>
+  <rect x="5" y="26" width="12" height="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="21" y="26" width="4" height="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="1" y="35" width="28" height="4" fill="#e9dbb9" stroke="#000" stroke-width="2"/>
 </svg>

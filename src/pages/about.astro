@@ -1,5 +1,6 @@
 ---
-import Base from '../layouts/Base.astro';
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
 import SmartImage from '../components/SmartImage.astro';
 
 const chapters = [
@@ -48,37 +49,11 @@ const chapters = [
 ];
 
 const ventures = [
-  {
-    name: 'Inperaco LLC',
-    years: '2021 — present',
-    role: 'Founder & Managing Partner',
-    line: 'AI and supply chain technology consultancy.',
-  },
-  {
-    name: 'Oxford Data Plan',
-    years: '2025 — present',
-    role: 'Advisor',
-    line: 'Alternative data and data science for financial markets.',
-  },
-  {
-    name: 'Reel Saber',
-    years: '2023 — 2025 · exited',
-    role: 'Founder',
-    line: 'Cosplay hardware company. Yes — I founded, ran, and sold an actual lightsaber company. The theme of this website is earned.',
-    saber: true,
-  },
-  {
-    name: 'PM Circles',
-    years: '2022 — 2024',
-    role: 'Founder',
-    line: 'Product management mentoring community, 1,000+ members.',
-  },
-  {
-    name: 'College of Charleston',
-    years: 'ongoing',
-    role: 'Lecturer',
-    line: 'MBA Leadership, Computer Science Data Analytics, Supply Chain Management.',
-  },
+  { name: 'Inperaco LLC', years: '2021 — present', role: 'Founder & Managing Partner', line: 'AI and supply chain technology consultancy.' },
+  { name: 'Oxford Data Plan', years: '2025 — present', role: 'Advisor', line: 'Alternative data and data science for financial markets.' },
+  { name: 'Reel Saber', years: '2023 — 2025 · exited', role: 'Founder', line: 'Cosplay hardware company. Yes — I founded, ran, and sold an actual lightsaber company. Check the Trash for what remains of the old website theme.' },
+  { name: 'PM Circles', years: '2022 — 2024', role: 'Founder', line: 'Product management mentoring community, 1,000+ members.' },
+  { name: 'College of Charleston', years: 'ongoing', role: 'Lecturer', line: 'MBA Leadership, Computer Science Data Analytics, Supply Chain Management.' },
 ];
 
 const education = [
@@ -87,209 +62,67 @@ const education = [
   'BS, Engineering — University of Padua (2012)',
   'SVPG Product Management · MIT Supply Chain Design · Lean Six Sigma Green Belt',
 ];
+
+const cards = [
+  { k: 'Card 1 of 3', co: 'MSC', role: 'Director, Business Transformation · 2013 – 2020', p: 'Built the first data science and automation teams at the world’s largest container shipping company. Where 90% of world trade starts: the water.', modes: '☒ Ocean ☐ Air ☐ Road' },
+  { k: 'Card 2 of 3', co: 'Amazon', role: 'Head of Product, Global Transportation Technology · 2020 – 2024', p: '10+ products, 30,000+ users, and the supply chain automation behind one of the largest fulfillment networks on Earth. From port-to-port to door-to-door.', modes: '☒ Ocean ☒ Air ☒ Road' },
+  { k: 'Card 3 of 3', co: 'Xeneta', role: 'Chief Product Officer · 2024 – now', p: 'Leading product for the world’s largest freight rate intelligence platform — agentic AI, industry-first derivatives, 500+ enterprise customers. Making the network intelligent.', modes: '☒ Ocean ☒ Air ☒ Data layer' },
+];
 ---
-<Base
-  title="About — Fabio Brocca"
+<Desktop
+  title="The Journey — Fabio Brocca"
   description="From the export desk at MSC to CPO at Xeneta, via planet-scale product at Amazon: the journey of a product executive in freight, logistics, and AI."
 >
-  <section class="section">
-    <div class="container">
-      <p class="section-label">// the journey</p>
-      <h1>From the dock to the board room</h1>
-      <p class="lede muted">
-        Fifteen-plus years building data-driven AI platforms in freight, logistics,
-        and supply chain — told in four chapters.
-      </p>
+  <MacWindow title="Career Stack" id="win-career" style="left:60px; top:380px; width:480px; height:320px" class="stagger-2">
+    <div class="stack" data-pager>
+      {cards.map((c, i) => (
+        <div class:list={['card', { show: i === 0 }]} data-page>
+          <span class="k">{c.k}</span>
+          <h2>{c.co}</h2>
+          <div class="role">{c.role}</div>
+          <p>{c.p}</p>
+          <div class="modes">{c.modes}</div>
+        </div>
+      ))}
+      <div class="nav">
+        <button class="mbtn" type="button" data-prev>◀</button>
+        <span class="dots" data-dots></span>
+        <button class="mbtn" type="button" data-next>▶</button>
+      </div>
     </div>
-  </section>
+  </MacWindow>
 
-  {chapters.map((c, i) => (
-    <section class="section chapter">
-      <div class="container chapter-grid" class:list={[{ flip: i % 2 === 1 }]}>
-        <div class="chapter-img">
+  <MacWindow title="The Journey" id="win-journey" style="left:180px; top:56px; width:640px; height:660px" zoom={true}>
+    <div class="ruler"></div>
+    <div class="doc">
+      <div class="post-head">
+        <h1>From the dock to the board room</h1>
+        <p class="meta">Fifteen-plus years building data-driven AI platforms in freight, logistics, and supply chain — told in four chapters.</p>
+      </div>
+
+      {chapters.map((c) => (
+        <>
+          <h2>{c.label} — {c.title}</h2>
           <SmartImage src={c.image} alt={c.imageLabel} label={c.imageLabel} aspect="4 / 3" />
-        </div>
-        <div class="chapter-copy">
-          <p class="section-label">{c.label}</p>
-          <h2>{c.title}</h2>
-          {c.body.map((p) => <p class="muted">{p}</p>)}
-        </div>
-      </div>
-    </section>
-  ))}
+          {c.body.map((p) => <p>{p}</p>)}
+        </>
+      ))}
 
-  <!-- Ventures & advisory -->
-  <section class="section">
-    <div class="container">
-      <p class="section-label">// side quests</p>
-      <h2>Ventures, boards &amp; teaching</h2>
-      <div class="ventures">
+      <h2>Side quests — ventures, boards &amp; teaching</h2>
+      <ul>
         {ventures.map((v) => (
-          <article class="card" class:list={[{ 'saber-card': v.saber }]}>
-            <div class="mono muted">{v.years}</div>
-            <h3>{v.name} {v.saber && <span class="saber" aria-hidden="true"></span>}</h3>
-            <p class="role">{v.role}</p>
-            <p class="muted">{v.line}</p>
-          </article>
+          <li><b>{v.name}</b> ({v.years}) — {v.role}. {v.line}</li>
         ))}
-      </div>
+      </ul>
+
+      <h2>Education &amp; certifications</h2>
+      <ul>
+        {education.map((e) => <li>{e}</li>)}
+      </ul>
     </div>
-  </section>
-
-  <!-- Education + character sheet -->
-  <section class="section">
-    <div class="container edu-grid">
-      <div>
-        <p class="section-label">// training</p>
-        <h2>Education &amp; certifications</h2>
-        <ul class="edu-list">
-          {education.map((e) => <li>{e}</li>)}
-        </ul>
-      </div>
-      <div class="terminal" role="figure" aria-label="Character stats">
-        <div class="terminal-bar">
-          <span></span><span></span><span></span>
-          <span class="mono terminal-title">fabio@brocca: ~/stats</span>
-        </div>
-        <pre class="mono">$ whoami
-Fabio Brocca
-
-$ cat profile.yaml
-class:      Product Executive
-level:      C-suite
-base:       Mount Pleasant, SC (US)
-origin:     Italy
-languages:  [English, Italian]
-alignment:  Customer-obsessed
-weapons:    [data, AI agents, roadmaps]
-saber:      blue (retired, sold the company)
-
-$ █</pre>
-      </div>
-    </div>
-  </section>
-</Base>
+  </MacWindow>
+</Desktop>
 
 <style>
-  .lede {
-    font-size: 1.2rem;
-    max-width: 38rem;
-  }
-
-  .chapter {
-    padding: 3rem 0;
-  }
-
-  .chapter-grid {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .chapter-grid.flip .chapter-img {
-    order: 2;
-  }
-
-  .ventures {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .role {
-    color: var(--accent-soft);
-    font-size: 0.95rem;
-    margin-bottom: 0.5em;
-  }
-
-  .saber-card {
-    border-color: rgba(79, 210, 138, 0.4);
-  }
-
-  .saber-card:hover {
-    border-color: var(--green);
-    box-shadow: 0 0 32px var(--green-glow);
-  }
-
-  .saber {
-    display: inline-block;
-    width: 2.2rem;
-    height: 4px;
-    border-radius: 2px;
-    background: var(--green);
-    box-shadow: 0 0 12px var(--green), 0 0 24px var(--green-glow);
-    vertical-align: middle;
-    margin-left: 0.4rem;
-  }
-
-  .edu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-
-  .edu-list {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0;
-  }
-
-  .edu-list li {
-    padding: 0.8rem 0;
-    border-bottom: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  .terminal {
-    background: #0d0d14;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .terminal-bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0.6rem 0.9rem;
-    background: var(--bg-raised);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .terminal-bar span:not(.terminal-title) {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--border);
-  }
-
-  .terminal-title {
-    margin-left: 0.6rem;
-    font-size: 0.75rem;
-    color: var(--faint);
-  }
-
-  .terminal pre {
-    margin: 0;
-    padding: 1.2rem;
-    font-size: 0.82rem;
-    line-height: 1.7;
-    color: var(--green);
-    overflow-x: auto;
-  }
-
-  @media (max-width: 820px) {
-    .chapter-grid,
-    .edu-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .chapter-grid.flip .chapter-img {
-      order: 0;
-    }
-  }
+  .doc :global(.mac-photo) { margin: 6px 0 14px; }
 </style>

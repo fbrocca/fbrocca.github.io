@@ -1,0 +1,26 @@
+---
+// A classic System 7 window. Rendered open; draggable/closable via the
+// desktop script in Desktop.astro. Position/size via the style prop
+// (desktop only — small screens override to full width).
+interface Props {
+  title: string;
+  id?: string;
+  style?: string;     // e.g. "left:90px; top:70px; width:430px"
+  zoom?: boolean;     // show the zoom (maximize) box
+  pad?: boolean;      // pad the body (for non-document content)
+  class?: string;
+}
+
+const { title, id, style, zoom = false, pad = false, class: className } = Astro.props;
+---
+<section class:list={['win', 'open', className]} id={id} style={style}>
+  <div class="titlebar">
+    <span class="stripes"></span>
+    <button class="tbox close" type="button" aria-label="Close window"></button>
+    <span class="tname">{title}</span>
+    {zoom && <button class="tbox zoom" type="button" aria-label="Zoom window"></button>}
+  </div>
+  <div class:list={['wbody', { pad }]}>
+    <slot />
+  </div>
+</section>

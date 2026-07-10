@@ -1,0 +1,35 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+import SmartImage from '../components/SmartImage.astro';
+
+// Add photos here (drop the file into public/images/..., add an entry, done).
+const photos = [
+  { src: '/images/journey/xeneta.jpg', label: 'Photo — Xeneta / Summit keynote', cap: 'Chapter IV · Xeneta, 2024 – present' },
+  { src: '/images/journey/amazon.jpg', label: 'Photo — Amazon years', cap: 'Chapter III · Amazon, 2020 – 2024' },
+  { src: '/images/journey/msc.jpg', label: 'Photo — MSC years', cap: 'Chapter II · MSC, 2013 – 2020' },
+  { src: '/images/journey/padua.jpg', label: 'Photo — early days / Italy', cap: 'Chapter I · Padua, 2012' },
+];
+---
+<Desktop
+  title="Photos — Fabio Brocca"
+  description="Scrapbook — photos from fifteen years in freight, logistics, and product."
+>
+  <MacWindow title="Scrapbook" id="win-photos" style="left:340px; top:90px; width:520px; height:540px">
+    <div class="scrapbook" data-pager>
+      <div class="sb-photo">
+        {photos.map((p, i) => (
+          <div class:list={['sb-item', { show: i === 0 }]} data-page>
+            <SmartImage src={p.src} alt={p.cap} label={p.label} aspect="4 / 3" />
+            <div class="sb-caption">{p.cap}</div>
+          </div>
+        ))}
+      </div>
+      <div class="sb-nav">
+        <button class="mbtn" type="button" data-prev>◀</button>
+        <span class="idx" data-idx></span>
+        <button class="mbtn" type="button" data-next>▶</button>
+      </div>
+    </div>
+  </MacWindow>
+</Desktop>

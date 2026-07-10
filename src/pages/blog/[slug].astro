@@ -1,51 +1,30 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Desktop from '../../layouts/Desktop.astro';
+import MacWindow from '../../components/MacWindow.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const words = post.body?.split(/\s+/).length ?? 0;
-const minutes = Math.max(1, Math.round(words / 220));
+const fmt = post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
-<Base title={`${post.data.title} — Fabio Brocca`} description={post.data.description} ogType="article">
-  <article class="section">
-    <div class="container prose">
-      <p class="mono muted meta">
-        {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        &nbsp;·&nbsp; {minutes} min read
-      </p>
-      <h1>{post.data.title}</h1>
-      {post.data.tags.length > 0 && (
-        <p class="tags mono">
-          {post.data.tags.map((t) => <span>#{t}</span>)}
-        </p>
-      )}
-      <hr class="glow-line" style="margin: 2rem 0;" />
+<Desktop
+  title={`${post.data.title} — Fabio Brocca`}
+  description={post.data.description}
+  ogType="article"
+>
+  <MacWindow title={post.data.title} id="win-reader" style="left:300px; top:56px; width:620px; height:660px" zoom={true}>
+    <div class="ruler"></div>
+    <article class="doc">
+      <div class="post-head">
+        <h1>{post.data.title}</h1>
+        <p class="meta">{fmt}{post.data.tags.length > 0 && ` · ${post.data.tags.join(', ')}`}</p>
+      </div>
       <Content />
-      <hr class="glow-line" style="margin: 3rem 0 2rem;" />
-      <p class="mono"><a href="/blog/">← All posts</a></p>
-    </div>
-  </article>
-</Base>
-
-<style>
-  .meta {
-    font-size: 0.8rem;
-  }
-
-  .tags {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    font-size: 0.8rem;
-    color: var(--accent-soft);
-  }
-</style>
+    </article>
+  </MacWindow>
+</Desktop>

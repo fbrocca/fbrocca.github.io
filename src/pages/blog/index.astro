@@ -1,98 +1,43 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Desktop from '../../layouts/Desktop.astro';
+import MacWindow from '../../components/MacWindow.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
----
-<Base
-  title="Blog — Fabio Brocca"
-  description="Writing on product leadership, AI, freight, and building product organizations — by Fabio Brocca."
->
-  <section class="section">
-    <div class="container">
-      <p class="section-label">// transmissions</p>
-      <h1>Blog</h1>
-      <p class="lede muted">
-        Notes on product leadership, AI, and the unglamorous magic of moving
-        freight around the planet.
-      </p>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container post-list">
-      {posts.map((p) => (
-        <a class="card post-item" href={`/blog/${p.id}/`}>
-          <div class="mono muted date">
-            {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-          </div>
-          <div>
-            <h2>{p.data.title}</h2>
-            <p class="muted">{p.data.description}</p>
-            {p.data.tags.length > 0 && (
-              <p class="tags mono">
-                {p.data.tags.map((t) => <span class="tag">#{t}</span>)}
-              </p>
-            )}
-          </div>
-        </a>
-      ))}
-      {posts.length === 0 && <p class="muted">First transmission coming soon.</p>}
-    </div>
-  </section>
-</Base>
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<Desktop
+  title="Writing — Fabio Brocca"
+  description="Essays on product leadership, AI in supply chains, and building product organizations in complex industries."
+>
+  <MacWindow title="Writing" id="win-blog" style="left:300px; top:120px; width:580px" zoom={true}>
+    <div class="fstatus">{posts.length} item{posts.length === 1 ? '' : 's'} · essays on product, AI &amp; supply chains · <a href="/rss.xml">RSS</a></div>
+    <table class="flist">
+      <thead><tr><th>Name</th><th>Date</th><th>Kind</th></tr></thead>
+      <tbody>
+        {posts.map((p) => (
+          <tr class="rowlink" data-href={`/blog/${p.id}/`}>
+            <td class="nm"><a href={`/blog/${p.id}/`}>{p.data.title}</a></td>
+            <td class="dt">{fmt(p.data.date)}</td>
+            <td>essay</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </MacWindow>
+</Desktop>
 
 <style>
-  .lede {
-    font-size: 1.2rem;
-    max-width: 38rem;
-  }
-
-  .post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 52rem;
-  }
-
-  .post-item {
-    display: grid;
-    grid-template-columns: 9rem 1fr;
-    gap: 1.5rem;
-    color: var(--text);
-  }
-
-  .post-item h2 {
-    font-size: 1.4rem;
-    margin-bottom: 0.4em;
-  }
-
-  .post-item:hover {
-    text-shadow: none;
-  }
-
-  .date {
-    font-size: 0.8rem;
-    padding-top: 0.35rem;
-  }
-
-  .tags {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    margin: 0;
-    font-size: 0.75rem;
-  }
-
-  .tag {
-    color: var(--accent-soft);
-  }
-
-  @media (max-width: 640px) {
-    .post-item {
-      grid-template-columns: 1fr;
-      gap: 0.4rem;
-    }
-  }
+  .rowlink { cursor: pointer; }
+  .rowlink a { text-decoration: none; color: inherit; }
+  .rowlink:hover td { background: #000; color: #fff; }
+  :global(html[data-scheme='color']) .rowlink:hover td { background: var(--hl); }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.rowlink').forEach((tr) => {
+    tr.addEventListener('click', () => { location.href = tr.dataset.href!; });
+  });
+</script>

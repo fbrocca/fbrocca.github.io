@@ -1,0 +1,437 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: string;
+  boot?: boolean; // show the startup sequence (homepage only, once per session)
+}
+
+const { title, description, ogType = 'website', boot = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en" data-scheme="color">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Fabio Brocca — Blog" href="/rss.xml" />
+    <link rel="preload" href="/fonts/ChicagoFLF.woff2" as="font" type="font/woff2" crossorigin />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      // Apply the saved display scheme before first paint (COLOR is default).
+      if (localStorage.getItem('fb-scheme') === '1bit') {
+        document.documentElement.removeAttribute('data-scheme');
+      }
+    </script>
+  </head>
+  <body>
+    <div class="screen pattern" id="screen">
+
+      {boot && (
+        <div class="boot" id="boot">
+          <div class="stage">
+            <div class="happy">
+              <svg class="i-mac" width="90" height="120" viewBox="0 0 30 40" shape-rendering="crispEdges" aria-label="Happy Macintosh">
+                <rect x="1" y="1" width="28" height="34" fill="var(--c-body,#fff)" stroke="#000" stroke-width="2"/>
+                <rect x="5" y="5" width="20" height="16" fill="var(--c-screen,#fff)" stroke="#000" stroke-width="2"/>
+                <rect x="11" y="9" width="2" height="4" fill="#000"/>
+                <rect x="17" y="9" width="2" height="4" fill="#000"/>
+                <rect x="14" y="12" width="2" height="3" fill="#000"/>
+                <rect x="10" y="16" width="2" height="2" fill="#000"/>
+                <rect x="12" y="17" width="6" height="2" fill="#000"/>
+                <rect x="18" y="16" width="2" height="2" fill="#000"/>
+                <rect x="5" y="26" width="12" height="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+                <rect x="21" y="26" width="4" height="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+                <rect x="1" y="35" width="28" height="4" fill="var(--c-body,#fff)" stroke="#000" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="welcome">Welcome to Fabio.</div>
+          </div>
+        </div>
+      )}
+
+      <!-- menu bar -->
+      <nav class="menubar" id="menubar" aria-label="Menu bar">
+        <span class="mtitle logo" data-menu="m-fb">⌘</span>
+        <span class="mtitle" data-menu="m-file">File</span>
+        <span class="mtitle" data-menu="m-edit">Edit</span>
+        <span class="mtitle" data-menu="m-view">View</span>
+        <span class="mtitle" data-menu="m-special">Special</span>
+        <span class="spacer"></span>
+        <span class="clock" id="clock"></span>
+      </nav>
+
+      <div class="menu" id="m-fb">
+        <a class="mi" href="/">About Fabio…</a>
+        <hr />
+        <a class="mi" href="/rss.xml">RSS Feed</a>
+        <div class="mi off">Alarm Clock</div>
+        <div class="mi off">Puzzle</div>
+      </div>
+      <div class="menu" id="m-file">
+        <a class="mi" href="/resume/">Open Résumé <span class="key">⌘R</span></a>
+        <a class="mi" href="/about/">Open The Journey <span class="key">⌘J</span></a>
+        <a class="mi" href="/blog/">Open Writing <span class="key">⌘B</span></a>
+        <a class="mi" href="/media/">Open Media <span class="key">⌘P</span></a>
+        <a class="mi" href="/photos/">Open Scrapbook <span class="key">⌘S</span></a>
+        <a class="mi" href="/contact/">Contact… <span class="key">⌘M</span></a>
+        <hr />
+        <div class="mi" data-act="closetop">Close Window <span class="key">⌘W</span></div>
+      </div>
+      <div class="menu" id="m-edit">
+        <div class="mi off">Undo <span class="key">⌘Z</span></div>
+        <hr />
+        <div class="mi off">Cut <span class="key">⌘X</span></div>
+        <div class="mi off">Copy <span class="key">⌘C</span></div>
+        <div class="mi off">Paste <span class="key">⌘V</span></div>
+        <div class="mi off">Clear</div>
+      </div>
+      <div class="menu" id="m-view">
+        <div class="mi">✓ by Icon</div>
+        <div class="mi off">&nbsp;&nbsp; by Name</div>
+        <div class="mi off">&nbsp;&nbsp; by Date</div>
+        <hr />
+        <div class="mi" data-act="cleanup">Clean Up Windows</div>
+      </div>
+      <div class="menu" id="m-special">
+        <div class="mi" data-act="pattern">Toggle Desktop Pattern</div>
+        <div class="mi" data-act="scheme" id="mi-scheme">Black &amp; White</div>
+        <div class="mi" data-act="emptytrash">Empty Trash…</div>
+        <hr />
+        <div class="mi" data-act="restart">Restart</div>
+        <div class="mi" data-act="shutdown">Shut Down</div>
+      </div>
+
+      <!-- desktop icons -->
+      <div class="icon-strip">
+
+        <a class="dicon i-mac" style="right:22px; top:44px" href="/">
+          <svg width="34" height="40" viewBox="0 0 30 36" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="2" y="1" width="26" height="30" fill="var(--c-body,#fff)" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="5" width="18" height="13" fill="var(--c-screen,#fff)" stroke="#000" stroke-width="2"/>
+            <rect x="11" y="8" width="2" height="3" fill="#000"/><rect x="17" y="8" width="2" height="3" fill="#000"/>
+            <rect x="11" y="13" width="8" height="2" fill="#000"/>
+            <rect x="6" y="22" width="10" height="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <rect x="2" y="31" width="26" height="4" fill="var(--c-body,#fff)" stroke="#000" stroke-width="2"/>
+          </svg>
+          <span class="lbl">Fabio HD</span>
+        </a>
+
+        <a class="dicon i-doc" style="right:22px; top:132px" href="/resume/">
+          <svg width="30" height="38" viewBox="0 0 26 34" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M2 1 h16 l6 6 v26 h-22 z" fill="var(--c-doc,#fff)" stroke="#000" stroke-width="2"/>
+            <path d="M18 1 v6 h6" fill="none" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="12" width="14" height="1.6" fill="var(--c-line,#000)"/>
+            <rect x="6" y="16" width="14" height="1.6" fill="var(--c-line,#000)"/>
+            <rect x="6" y="20" width="14" height="1.6" fill="var(--c-line,#000)"/>
+            <rect x="6" y="24" width="9" height="1.6" fill="var(--c-line,#000)"/>
+          </svg>
+          <span class="lbl">Résumé</span>
+        </a>
+
+        <a class="dicon i-map" style="right:22px; top:222px" href="/about/">
+          <svg width="36" height="34" viewBox="0 0 32 28" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M1 4 l10 -3 l10 3 l10 -3 v23 l-10 3 l-10 -3 l-10 3 z" fill="var(--c-map,#fff)" stroke="#000" stroke-width="2"/>
+            <path d="M11 1 v23 M21 4 v23" fill="none" stroke="#000" stroke-width="1.4"/>
+            <path d="M5 18 q6 -10 12 -6 t10 -5" fill="none" stroke="var(--c-route,#000)" stroke-width="1.6" stroke-dasharray="2 2"/>
+          </svg>
+          <span class="lbl">The Journey</span>
+        </a>
+
+        <a class="dicon i-doc i-news" style="right:22px; top:314px" href="/blog/">
+          <svg width="30" height="38" viewBox="0 0 26 34" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M2 1 h16 l6 6 v26 h-22 z" fill="var(--c-doc,#fff)" stroke="#000" stroke-width="2"/>
+            <path d="M18 1 v6 h6" fill="none" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="11" width="14" height="4" fill="var(--c-mast,#000)"/>
+            <rect x="6" y="18" width="14" height="1.4" fill="#000"/>
+            <rect x="6" y="21" width="14" height="1.4" fill="#000"/>
+            <rect x="6" y="24" width="10" height="1.4" fill="#000"/>
+          </svg>
+          <span class="lbl">Writing</span>
+        </a>
+
+        <a class="dicon i-media" style="right:22px; top:406px" href="/media/">
+          <svg width="32" height="36" viewBox="0 0 28 32" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="2" y="2" width="24" height="28" fill="var(--c-doc,#fff)" stroke="#000" stroke-width="2"/>
+            <rect x="16" y="8" width="2" height="12" fill="var(--c-note,#000)"/>
+            <rect x="10" y="18" width="6" height="4" fill="var(--c-note,#000)"/>
+            <rect x="16" y="6" width="6" height="2" fill="var(--c-note,#000)"/>
+          </svg>
+          <span class="lbl">Media</span>
+        </a>
+
+        <a class="dicon i-photo" style="right:22px; top:498px" href="/photos/">
+          <svg width="34" height="30" viewBox="0 0 30 26" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="1" y="4" width="28" height="20" fill="var(--c-cam,#fff)" stroke="#000" stroke-width="2"/>
+            <rect x="10" y="1" width="10" height="4" fill="var(--c-cam,#fff)" stroke="#000" stroke-width="1.6"/>
+            <circle cx="15" cy="14" r="6" fill="#fff" stroke="#000" stroke-width="2"/>
+            <circle cx="15" cy="14" r="2" fill="var(--c-lens,#000)"/>
+            <rect x="23" y="7" width="3" height="3" fill="var(--c-lens,#000)"/>
+          </svg>
+          <span class="lbl">Photos</span>
+        </a>
+
+        <a class="dicon i-mail" style="right:22px; top:586px" href="/contact/">
+          <svg width="34" height="30" viewBox="0 0 30 24" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="1" y="1" width="28" height="22" fill="var(--c-env,#fff)" stroke="#000" stroke-width="2"/>
+            <path d="M1 1 L15 13 L29 1" fill="none" stroke="#000" stroke-width="2"/>
+          </svg>
+          <span class="lbl">Contact</span>
+        </a>
+
+        <a class="dicon i-trash" style="right:22px; bottom:18px" href="/trash/">
+          <svg width="28" height="38" viewBox="0 0 24 34" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="8" y="1" width="8" height="3" fill="var(--c-trash,#fff)" stroke="#000" stroke-width="1.6"/>
+            <rect x="2" y="4" width="20" height="3" fill="var(--c-trash,#fff)" stroke="#000" stroke-width="1.6"/>
+            <path d="M4 7 h16 l-1.5 26 h-13 z" fill="var(--c-trash,#fff)" stroke="#000" stroke-width="2"/>
+            <rect x="8" y="11" width="1.6" height="18" fill="#000"/>
+            <rect x="11.4" y="11" width="1.6" height="18" fill="#000"/>
+            <rect x="14.8" y="11" width="1.6" height="18" fill="#000"/>
+          </svg>
+          <span class="lbl">Trash</span>
+        </a>
+
+      </div>
+
+      <slot />
+
+      <!-- system alert -->
+      <div class="alert-veil" id="alert-veil">
+        <div class="alert" role="alertdialog" aria-modal="true">
+          <div class="a-in">
+            <svg class="i-warn" width="36" height="36" viewBox="0 0 32 32" shape-rendering="crispEdges" aria-hidden="true">
+              <path d="M16 2 L30 29 H2 Z" fill="var(--c-warn,#fff)" stroke="#000" stroke-width="2"/>
+              <rect x="15" y="11" width="2.6" height="9" fill="#000"/>
+              <rect x="15" y="23" width="2.6" height="2.6" fill="#000"/>
+            </svg>
+            <p id="alert-msg">Alert</p>
+          </div>
+          <div class="a-act"><button class="mbtn default" id="alert-ok">OK</button></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      const screen = document.getElementById('screen')!;
+      let zTop = 20;
+      const isTouch = matchMedia('(pointer: coarse)').matches;
+
+      /* ---- display scheme (Special ▸ Black & White / Colors) ---- */
+      const miScheme = document.getElementById('mi-scheme')!;
+      function currentScheme(): string {
+        return document.documentElement.getAttribute('data-scheme') === 'color' ? 'color' : '1bit';
+      }
+      function setScheme(s: string) {
+        if (s === 'color') document.documentElement.setAttribute('data-scheme', 'color');
+        else document.documentElement.removeAttribute('data-scheme');
+        localStorage.setItem('fb-scheme', s);
+        miScheme.textContent = s === 'color' ? 'Black & White' : 'Colors';
+      }
+      miScheme.textContent = currentScheme() === 'color' ? 'Black & White' : 'Colors';
+
+      /* ---- boot (homepage only, once per session) ---- */
+      const boot = document.getElementById('boot');
+      if (boot) {
+        if (sessionStorage.getItem('fb-booted')) boot.classList.add('done');
+        else {
+          const finish = () => { boot.classList.add('done'); sessionStorage.setItem('fb-booted', '1'); };
+          const t1 = setTimeout(() => boot.classList.add('phase2'), 1300);
+          const t2 = setTimeout(finish, 2700);
+          boot.addEventListener('click', () => { clearTimeout(t1); clearTimeout(t2); finish(); });
+        }
+      }
+
+      /* ---- menu bar clock ---- */
+      const clock = document.getElementById('clock')!;
+      function tick() {
+        const d = new Date();
+        let h = d.getHours();
+        const m = d.getMinutes();
+        const ap = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        clock.textContent = `${h}:${m < 10 ? '0' : ''}${m} ${ap}`;
+      }
+      tick();
+      setInterval(tick, 15000);
+
+      /* ---- windows ---- */
+      const wins = () => Array.from(document.querySelectorAll<HTMLElement>('.win'));
+      function activate(w: HTMLElement) {
+        wins().forEach((x) => x.classList.remove('active'));
+        w.classList.add('active');
+        w.style.zIndex = String(++zTop);
+      }
+      function closeWin(w: HTMLElement) {
+        w.classList.remove('open', 'active');
+        if (!wins().some((x) => x.classList.contains('open')) && location.pathname !== '/') {
+          location.href = '/';
+        }
+      }
+      function topWin(): HTMLElement | undefined {
+        return wins()
+          .filter((w) => w.classList.contains('open'))
+          .sort((a, b) => (+b.style.zIndex || 0) - (+a.style.zIndex || 0))[0];
+      }
+
+      wins().forEach((w) => {
+        w.addEventListener('pointerdown', () => activate(w));
+        w.querySelector('.tbox.close')?.addEventListener('click', (e) => { e.stopPropagation(); closeWin(w); });
+        w.querySelector('.tbox.zoom')?.addEventListener('click', (e) => { e.stopPropagation(); w.classList.toggle('zoomed'); });
+
+        const tb = w.querySelector<HTMLElement>('.titlebar')!;
+        let drag: { dx: number; dy: number; s: DOMRect } | null = null;
+        tb.addEventListener('pointerdown', (e) => {
+          if ((e.target as HTMLElement).classList.contains('tbox') || w.classList.contains('zoomed')) return;
+          const r = w.getBoundingClientRect();
+          drag = { dx: e.clientX - r.left, dy: e.clientY - r.top, s: screen.getBoundingClientRect() };
+          tb.setPointerCapture(e.pointerId);
+          e.preventDefault();
+        });
+        tb.addEventListener('pointermove', (e) => {
+          if (!drag) return;
+          let x = e.clientX - drag.s.left - drag.dx;
+          let y = e.clientY - drag.s.top - drag.dy;
+          x = Math.max(-w.offsetWidth + 60, Math.min(x, drag.s.width - 60));
+          y = Math.max(24, Math.min(y, drag.s.height - 30));
+          w.style.left = `${x}px`;
+          w.style.top = `${y}px`;
+        });
+        tb.addEventListener('pointerup', () => { drag = null; });
+      });
+
+      // activate the frontmost window on load
+      const openNow = wins().filter((w) => w.classList.contains('open'));
+      if (openNow.length) activate(openNow[openNow.length - 1]);
+
+      /* ---- desktop icons: click selects, double-click (or tap) opens ---- */
+      document.querySelectorAll<HTMLAnchorElement>('.dicon').forEach((ic) => {
+        ic.addEventListener('click', (e) => {
+          if (!isTouch) {
+            e.preventDefault();
+            document.querySelectorAll('.dicon.sel').forEach((x) => x.classList.remove('sel'));
+            ic.classList.add('sel');
+          }
+        });
+        ic.addEventListener('dblclick', () => { location.href = ic.href; });
+      });
+      screen.addEventListener('click', (e) => {
+        if (e.target === screen) document.querySelectorAll('.dicon.sel').forEach((x) => x.classList.remove('sel'));
+      });
+
+      /* ---- menus ---- */
+      let openMenu: string | null = null;
+      function closeMenus() {
+        document.querySelectorAll('.menu.open').forEach((m) => m.classList.remove('open'));
+        document.querySelectorAll('.mtitle.open').forEach((m) => m.classList.remove('open'));
+        openMenu = null;
+      }
+      document.querySelectorAll<HTMLElement>('.mtitle[data-menu]').forEach((mt) => {
+        mt.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = mt.getAttribute('data-menu')!;
+          if (openMenu === id) return closeMenus();
+          closeMenus();
+          mt.classList.add('open');
+          const m = document.getElementById(id)!;
+          m.classList.add('open');
+          m.style.left = `${mt.getBoundingClientRect().left - screen.getBoundingClientRect().left}px`;
+          openMenu = id;
+        });
+        mt.addEventListener('mouseenter', () => {
+          if (openMenu && openMenu !== mt.getAttribute('data-menu')) mt.click();
+        });
+      });
+      document.addEventListener('click', closeMenus);
+
+      /* ---- system alert ---- */
+      const veil = document.getElementById('alert-veil')!;
+      function alertBox(msg: string) {
+        document.getElementById('alert-msg')!.textContent = msg;
+        veil.classList.add('open');
+      }
+      document.getElementById('alert-ok')!.addEventListener('click', () => veil.classList.remove('open'));
+
+      /* ---- menu actions ---- */
+      document.addEventListener('click', (e) => {
+        const el = (e.target as HTMLElement).closest('[data-act]');
+        if (!el) return;
+        const act = el.getAttribute('data-act')!;
+        if (act === 'closetop') { const t = topWin(); if (t) closeWin(t); }
+        else if (act === 'pattern') screen.classList.toggle('pattern');
+        else if (act === 'scheme') setScheme(currentScheme() === 'color' ? '1bit' : 'color');
+        else if (act === 'emptytrash') alertBox('The Trash contains “star_wars_theme.zip” and 2 other items. They will be deleted permanently. (This is not a threat. It is a promise.)');
+        else if (act === 'restart') { sessionStorage.removeItem('fb-booted'); location.href = '/'; }
+        else if (act === 'shutdown') alertBox('It is now safe to close this tab. Thank you for visiting.');
+        else if (act === 'cleanup') {
+          let x = 80, y = 60;
+          wins().forEach((w) => {
+            if (!w.classList.contains('open')) return;
+            w.classList.remove('zoomed');
+            w.style.left = `${x}px`;
+            w.style.top = `${y}px`;
+            x += 34; y += 30;
+          });
+        }
+      });
+
+      /* ---- Konami code: switch Monitors between Colors and B&W ---- */
+      const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let pos = 0;
+      document.addEventListener('keydown', (e) => {
+        pos = e.key === code[pos] ? pos + 1 : e.key === code[0] ? 1 : 0;
+        if (pos === code.length) {
+          pos = 0;
+          setScheme(currentScheme() === 'color' ? '1bit' : 'color');
+        }
+      });
+
+      /* ---- résumé download (bound if the button exists on this page) ---- */
+      const dl = document.getElementById('dl-resume');
+      if (dl) {
+        dl.addEventListener('click', async () => {
+          // Prefer a real PDF if one has been dropped into public/.
+          try {
+            const head = await fetch('/resume.pdf', { method: 'HEAD' });
+            if (head.ok) { location.href = '/resume.pdf'; return; }
+          } catch { /* fall through to text version */ }
+          const text = document.getElementById('resume-doc')?.innerText ?? '';
+          const blob = new Blob([text], { type: 'text/plain' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'fabio-brocca-resume.txt';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        });
+      }
+
+      /* ---- HyperCard stack + Scrapbook pagers (server-rendered items) ---- */
+      document.querySelectorAll<HTMLElement>('[data-pager]').forEach((pager) => {
+        const items = Array.from(pager.querySelectorAll<HTMLElement>('[data-page]'));
+        const idx = pager.querySelector<HTMLElement>('[data-idx]');
+        const dots = pager.querySelector<HTMLElement>('[data-dots]');
+        let i = 0;
+        function render() {
+          items.forEach((it, n) => it.classList.toggle('show', n === i));
+          if (idx) idx.textContent = `${i + 1} of ${items.length}`;
+          if (dots) dots.textContent = items.map((_, n) => (n === i ? '●' : '○')).join('');
+        }
+        pager.querySelector('[data-prev]')?.addEventListener('click', () => { i = (i + items.length - 1) % items.length; render(); });
+        pager.querySelector('[data-next]')?.addEventListener('click', () => { i = (i + 1) % items.length; render(); });
+        render();
+      });
+    </script>
+  </body>
+</html>

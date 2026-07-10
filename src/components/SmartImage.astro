@@ -1,0 +1,70 @@
+---
+// Renders the real image when the file exists under public/, otherwise a
+// styled placeholder telling Fabio exactly which file to drop in. The check
+// happens at build time, so swapping a placeholder is: add file, rebuild.
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  src: string;          // e.g. "/images/journey/msc.jpg"
+  alt: string;
+  label?: string;       // placeholder caption, e.g. "MSC years photo"
+  aspect?: string;      // CSS aspect-ratio, e.g. "16 / 9"
+  class?: string;
+}
+
+const { src, alt, label = alt, aspect = '16 / 9', class: className } = Astro.props;
+const exists = fs.existsSync(path.join(process.cwd(), 'public', src));
+---
+{exists ? (
+  <img src={src} alt={alt} loading="lazy" class:list={['smart-img', className]} style={`aspect-ratio: ${aspect};`} />
+) : (
+  <div class:list={['placeholder', className]} style={`aspect-ratio: ${aspect};`} role="img" aria-label={alt}>
+    <span class="ph-icon">◨</span>
+    <span class="ph-label">{label}</span>
+    <span class="ph-path mono">{src}</span>
+  </div>
+)}
+
+<style>
+  .smart-img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .placeholder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background:
+      repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(79, 157, 255, 0.03) 12px, rgba(79, 157, 255, 0.03) 24px),
+      var(--bg-raised);
+    color: var(--faint);
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .ph-icon {
+    font-size: 1.6rem;
+    color: var(--accent);
+    opacity: 0.5;
+  }
+
+  .ph-label {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .ph-path {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+</style>

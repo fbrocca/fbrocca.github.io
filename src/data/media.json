@@ -1,0 +1,64 @@
+[
+  {
+    "type": "podcast",
+    "show": "Product Thinking with Melissa Perri",
+    "title": "Ep. 210 — Navigating Product Leadership in Complex Industries",
+    "date": "2025-02",
+    "summary": "Product leadership, scaling from big tech to growth stage, and AI in freight — balancing urgency of execution with strategic perfection.",
+    "image": "/images/media/product-thinking.jpg",
+    "featured": true,
+    "links": {
+      "Spotify": "https://open.spotify.com/episode/3lOwv8r5cGX4MktYBuwhoj",
+      "YouTube": "https://www.youtube.com/watch?v=wfAEvf4v6i0",
+      "Show page": "https://www.produxlabs.com/product-thinking-blog/episode-210-fabio-brocca-product-leadership"
+    },
+    "embed": {
+      "kind": "youtube",
+      "id": "wfAEvf4v6i0"
+    }
+  },
+  {
+    "type": "keynote",
+    "show": "Xeneta Summit 2025 · Amsterdam",
+    "title": "Keynote — Agentic AI in Procurement",
+    "date": "2025",
+    "summary": "How AI agents embedded in procurement workflows are reshaping the way shippers buy freight.",
+    "image": "/images/media/xeneta-summit-2025.jpg",
+    "featured": true,
+    "links": {}
+  },
+  {
+    "type": "podcast",
+    "show": "The Freight Debate (Xeneta)",
+    "title": "Behind the eeSea Acquisition — with Simon Sundboell",
+    "date": "2025",
+    "summary": "Why Xeneta acquired eeSea and what it means for how the industry measures schedule reliability.",
+    "image": "/images/media/freight-debate.jpg",
+    "featured": false,
+    "links": {
+      "Apple Podcasts": "https://podcasts.apple.com/gb/podcast/the-freight-debate/id1806987156"
+    }
+  },
+  {
+    "type": "podcast",
+    "show": "Out of the Box",
+    "title": "How Global Freight Really Works",
+    "date": "2025",
+    "summary": "Why freight pricing feels opaque, how shippers benchmark contracts, and how data and AI are transforming procurement and forecasting.",
+    "image": "/images/media/out-of-the-box.jpg",
+    "featured": false,
+    "links": {
+      "Apple Podcasts": "https://podcasts.apple.com/us/podcast/out-of-the-box/id1747757797"
+    }
+  },
+  {
+    "type": "keynote",
+    "show": "Xeneta Summit 2024 · Amsterdam",
+    "title": "Keynote — Freight Market Intelligence & AI-Driven Benchmarking",
+    "date": "2024",
+    "summary": "The state of freight market intelligence and where AI-driven benchmarking is taking the industry.",
+    "image": "/images/media/xeneta-summit-2024.jpg",
+    "featured": false,
+    "links": {}
+  }
+]

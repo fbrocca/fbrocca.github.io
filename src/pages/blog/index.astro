@@ -1,0 +1,98 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base
+  title="Blog — Fabio Brocca"
+  description="Writing on product leadership, AI, freight, and building product organizations — by Fabio Brocca."
+>
+  <section class="section">
+    <div class="container">
+      <p class="section-label">// transmissions</p>
+      <h1>Blog</h1>
+      <p class="lede muted">
+        Notes on product leadership, AI, and the unglamorous magic of moving
+        freight around the planet.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container post-list">
+      {posts.map((p) => (
+        <a class="card post-item" href={`/blog/${p.id}/`}>
+          <div class="mono muted date">
+            {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+          </div>
+          <div>
+            <h2>{p.data.title}</h2>
+            <p class="muted">{p.data.description}</p>
+            {p.data.tags.length > 0 && (
+              <p class="tags mono">
+                {p.data.tags.map((t) => <span class="tag">#{t}</span>)}
+              </p>
+            )}
+          </div>
+        </a>
+      ))}
+      {posts.length === 0 && <p class="muted">First transmission coming soon.</p>}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+    max-width: 38rem;
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 52rem;
+  }
+
+  .post-item {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1.5rem;
+    color: var(--text);
+  }
+
+  .post-item h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4em;
+  }
+
+  .post-item:hover {
+    text-shadow: none;
+  }
+
+  .date {
+    font-size: 0.8rem;
+    padding-top: 0.35rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  .tag {
+    color: var(--accent-soft);
+  }
+
+  @media (max-width: 640px) {
+    .post-item {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>

@@ -1,0 +1,187 @@
+---
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '../styles/global.css';
+import Starfield from '../components/Starfield.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: string;
+}
+
+const { title, description, ogType = 'website' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Fabio Brocca — Blog" href="/rss.xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <Starfield />
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Easter egg: Konami code opens the crawl. ↑↑↓↓←→←→BA -->
+    <div id="crawl-overlay" hidden>
+      <button id="crawl-close" class="mono" aria-label="Close">ESC to close ✕</button>
+      <div class="crawl-viewport">
+        <div class="crawl-text">
+          <p class="crawl-intro mono">A long time ago, in a port city far,<br />far away....</p>
+          <h2>EPISODE CPO</h2>
+          <h3>THE PRODUCT AWAKENS</h3>
+          <p>
+            It is a period of digital transformation. FABIO BROCCA, a young engineer
+            from Padua, has joined the rebellion against opaque freight pricing and
+            manual supply chains.
+          </p>
+          <p>
+            Rising through the ranks of MSC, the world's largest shipping alliance,
+            he built its first data science teams and automated fifty processes,
+            striking a blow worth fifty million credits a year.
+          </p>
+          <p>
+            Summoned to AMAZON, he trained predictive machines to watch over the
+            galaxy's largest delivery fleet, then led the products that configured
+            an empire's fulfillment network — a billion-credit victory.
+          </p>
+          <p>
+            Now, as CHIEF PRODUCT OFFICER of XENETA, he commands a fleet of product
+            managers, designers, and AI agents bringing transparency to the freight
+            galaxy once and for all....
+          </p>
+          <p class="crawl-outro mono">// press ESC to return to your sector</p>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      #crawl-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: #000;
+        overflow: hidden;
+      }
+
+      #crawl-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        z-index: 101;
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        padding: 0.4rem 1rem;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+
+      #crawl-close:hover {
+        color: var(--text);
+        border-color: var(--accent);
+      }
+
+      .crawl-viewport {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        perspective: 400px;
+        overflow: hidden;
+      }
+
+      .crawl-text {
+        max-width: 36rem;
+        padding: 0 2rem;
+        text-align: justify;
+        color: #ffd54a;
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.8;
+        transform-origin: 50% 100%;
+        transform: rotateX(25deg);
+        animation: crawl 60s linear forwards;
+      }
+
+      .crawl-text h2,
+      .crawl-text h3 {
+        text-align: center;
+        color: #ffd54a;
+      }
+
+      .crawl-intro {
+        color: #4f9dff;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+
+      .crawl-outro {
+        color: var(--faint);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      @keyframes crawl {
+        0% { transform: rotateX(25deg) translateY(100vh); }
+        100% { transform: rotateX(25deg) translateY(-250%); }
+      }
+    </style>
+
+    <script>
+      const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let pos = 0;
+      const overlay = document.getElementById('crawl-overlay')!;
+      const closeBtn = document.getElementById('crawl-close')!;
+
+      function open() {
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+        // restart the animation each time
+        const text = overlay.querySelector<HTMLElement>('.crawl-text')!;
+        text.style.animation = 'none';
+        void text.offsetHeight;
+        text.style.animation = '';
+      }
+
+      function close() {
+        overlay.hidden = true;
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (!overlay.hidden && e.key === 'Escape') return close();
+        pos = e.key === code[pos] ? pos + 1 : e.key === code[0] ? 1 : 0;
+        if (pos === code.length) {
+          pos = 0;
+          open();
+        }
+      });
+
+      closeBtn.addEventListener('click', close);
+    </script>
+  </body>
+</html>

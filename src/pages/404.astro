@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="404 — Fabio Brocca"
+  description="Page not found."
+>
+  <section class="section notfound">
+    <div class="container">
+      <p class="glitch mono">ERROR 404</p>
+      <h1>These aren't the pages<br />you're looking for.</h1>
+      <p class="muted lede">Move along… back to somewhere that exists.</p>
+      <div class="actions">
+        <a class="btn btn--solid" href="/">Go home</a>
+        <a class="btn" href="/blog/">Read the blog</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .notfound .container {
+    width: 100%;
+  }
+
+  .glitch {
+    color: var(--accent);
+    letter-spacing: 0.4em;
+    font-size: 0.9rem;
+    text-shadow: 0 0 18px var(--accent-glow);
+    animation: flicker 3s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.4; }
+    94% { opacity: 1; }
+    97% { opacity: 0.6; }
+    98% { opacity: 1; }
+  }
+
+  .lede {
+    font-size: 1.15rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+</style>

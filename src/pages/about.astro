@@ -1,0 +1,295 @@
+---
+import Base from '../layouts/Base.astro';
+import SmartImage from '../components/SmartImage.astro';
+
+const chapters = [
+  {
+    label: 'Chapter I · 2012',
+    title: 'Padua, Italy',
+    image: '/images/journey/padua.jpg',
+    imageLabel: 'Photo — early days / Italy',
+    body: [
+      'I grew up in Italy and studied engineering at the University of Padua — one of the oldest universities in the world, where Galileo once taught. I left with a degree in industrial engineering and a conviction that the most interesting problems live where physical operations meet software.',
+      'Global shipping turned out to be exactly that kind of problem.',
+    ],
+  },
+  {
+    label: 'Chapter II · 2013 — 2020',
+    title: 'MSC — learning the ocean',
+    image: '/images/journey/msc.jpg',
+    imageLabel: 'Photo — MSC years',
+    body: [
+      'I joined Mediterranean Shipping Company, the world’s largest container carrier, and worked my way up from the export desk: built and led a 17-person export team, then became P&L owner for MSC’s Southeast US region — the largest MSC office in North America, 350+ employees and $10M+ EBITDA a year, reporting to the CEO. Along the way I founded the MSC Academy, a leadership program that spread to six agencies.',
+      'Then I moved from running operations to transforming them. As Director of Business Transformation I built MSC’s first data science and software product teams, launched a worldwide automation program that took on 50+ processes and returned $50M+ in annual savings, rolled out ERP and CRM platforms across ten countries, and stood up a 300-engineer technology center in Chennai.',
+      'Seven years, four roles, one lesson: technology only matters if the people running the ships actually use it.',
+    ],
+  },
+  {
+    label: 'Chapter III · 2020 — 2024',
+    title: 'Amazon — planet-scale product',
+    image: '/images/journey/amazon.jpg',
+    imageLabel: 'Photo — Amazon years',
+    body: [
+      'At Amazon I went deep on zero-to-one: as Senior Technical PM for Vehicle Telematics I built an AI/ML predictive maintenance product for the largest last-mile fleet in the world — telematics, edge computing, cameras, EV integrations — worth $100M+ in NPV, one of the largest single-product AI investments in Amazon transportation at the time.',
+      'Then I went wide: as Head of Product for Global Transportation Technology I led a portfolio of 10+ products used by 30,000+ people across North America, Europe, and APAC, and served as worldwide product lead for Supply Chain Configuration Automation — the multi-year program optimizing Amazon’s fulfillment network that generated over $1B in ROI in 2022.',
+      'While there, I also completed a Master’s in Data Science & Analytics at Georgia Tech. Nights and weekends. Would recommend, eventually.',
+    ],
+  },
+  {
+    label: 'Chapter IV · 2024 — present',
+    title: 'Xeneta — bringing transparency to freight',
+    image: '/images/journey/xeneta.jpg',
+    imageLabel: 'Photo — Xeneta / Summit keynote',
+    body: [
+      'Today I’m the Chief Product Officer at Xeneta, the world’s largest ocean and air freight rate intelligence platform. I’m the company’s first CPO, and I lead a 40+ person organization spanning product management, UX design, product marketing, sales enablement, value engineering, and market intelligence across Europe, Asia, and the US.',
+      'Since I joined we’ve grown ARR more than 30% year over year — by shipping agentic AI into procurement workflows (a freight industry first), launching industry-first financial derivatives, and expanding into new data products. I sit on the executive team, contribute to company strategy, M&A, and board work, and I still review products like a PM.',
+    ],
+  },
+];
+
+const ventures = [
+  {
+    name: 'Inperaco LLC',
+    years: '2021 — present',
+    role: 'Founder & Managing Partner',
+    line: 'AI and supply chain technology consultancy.',
+  },
+  {
+    name: 'Oxford Data Plan',
+    years: '2025 — present',
+    role: 'Advisor',
+    line: 'Alternative data and data science for financial markets.',
+  },
+  {
+    name: 'Reel Saber',
+    years: '2023 — 2025 · exited',
+    role: 'Founder',
+    line: 'Cosplay hardware company. Yes — I founded, ran, and sold an actual lightsaber company. The theme of this website is earned.',
+    saber: true,
+  },
+  {
+    name: 'PM Circles',
+    years: '2022 — 2024',
+    role: 'Founder',
+    line: 'Product management mentoring community, 1,000+ members.',
+  },
+  {
+    name: 'College of Charleston',
+    years: 'ongoing',
+    role: 'Lecturer',
+    line: 'MBA Leadership, Computer Science Data Analytics, Supply Chain Management.',
+  },
+];
+
+const education = [
+  'MS, Data Science & Analytics — Georgia Institute of Technology (2023)',
+  'MBA, First Class Honors — Middlesex University, London (2018)',
+  'BS, Engineering — University of Padua (2012)',
+  'SVPG Product Management · MIT Supply Chain Design · Lean Six Sigma Green Belt',
+];
+---
+<Base
+  title="About — Fabio Brocca"
+  description="From the export desk at MSC to CPO at Xeneta, via planet-scale product at Amazon: the journey of a product executive in freight, logistics, and AI."
+>
+  <section class="section">
+    <div class="container">
+      <p class="section-label">// the journey</p>
+      <h1>From the dock to the board room</h1>
+      <p class="lede muted">
+        Fifteen-plus years building data-driven AI platforms in freight, logistics,
+        and supply chain — told in four chapters.
+      </p>
+    </div>
+  </section>
+
+  {chapters.map((c, i) => (
+    <section class="section chapter">
+      <div class="container chapter-grid" class:list={[{ flip: i % 2 === 1 }]}>
+        <div class="chapter-img">
+          <SmartImage src={c.image} alt={c.imageLabel} label={c.imageLabel} aspect="4 / 3" />
+        </div>
+        <div class="chapter-copy">
+          <p class="section-label">{c.label}</p>
+          <h2>{c.title}</h2>
+          {c.body.map((p) => <p class="muted">{p}</p>)}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Ventures & advisory -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label">// side quests</p>
+      <h2>Ventures, boards &amp; teaching</h2>
+      <div class="ventures">
+        {ventures.map((v) => (
+          <article class="card" class:list={[{ 'saber-card': v.saber }]}>
+            <div class="mono muted">{v.years}</div>
+            <h3>{v.name} {v.saber && <span class="saber" aria-hidden="true"></span>}</h3>
+            <p class="role">{v.role}</p>
+            <p class="muted">{v.line}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education + character sheet -->
+  <section class="section">
+    <div class="container edu-grid">
+      <div>
+        <p class="section-label">// training</p>
+        <h2>Education &amp; certifications</h2>
+        <ul class="edu-list">
+          {education.map((e) => <li>{e}</li>)}
+        </ul>
+      </div>
+      <div class="terminal" role="figure" aria-label="Character stats">
+        <div class="terminal-bar">
+          <span></span><span></span><span></span>
+          <span class="mono terminal-title">fabio@brocca: ~/stats</span>
+        </div>
+        <pre class="mono">$ whoami
+Fabio Brocca
+
+$ cat profile.yaml
+class:      Product Executive
+level:      C-suite
+base:       Mount Pleasant, SC (US)
+origin:     Italy
+languages:  [English, Italian]
+alignment:  Customer-obsessed
+weapons:    [data, AI agents, roadmaps]
+saber:      blue (retired, sold the company)
+
+$ █</pre>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+    max-width: 38rem;
+  }
+
+  .chapter {
+    padding: 3rem 0;
+  }
+
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .chapter-grid.flip .chapter-img {
+    order: 2;
+  }
+
+  .ventures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .role {
+    color: var(--accent-soft);
+    font-size: 0.95rem;
+    margin-bottom: 0.5em;
+  }
+
+  .saber-card {
+    border-color: rgba(79, 210, 138, 0.4);
+  }
+
+  .saber-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 0 32px var(--green-glow);
+  }
+
+  .saber {
+    display: inline-block;
+    width: 2.2rem;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green), 0 0 24px var(--green-glow);
+    vertical-align: middle;
+    margin-left: 0.4rem;
+  }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .edu-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+
+  .edu-list li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .terminal {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.6rem 0.9rem;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .terminal-bar span:not(.terminal-title) {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .terminal-title {
+    margin-left: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--faint);
+  }
+
+  .terminal pre {
+    margin: 0;
+    padding: 1.2rem;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--green);
+    overflow-x: auto;
+  }
+
+  @media (max-width: 820px) {
+    .chapter-grid,
+    .edu-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .chapter-grid.flip .chapter-img {
+      order: 0;
+    }
+  }
+</style>

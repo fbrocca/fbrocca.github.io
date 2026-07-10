@@ -1,0 +1,154 @@
+---
+import Base from '../layouts/Base.astro';
+import SmartImage from '../components/SmartImage.astro';
+import media from '../data/media.json';
+
+const withEmbed = media.find((m) => m.embed?.kind === 'youtube');
+---
+<Base
+  title="Media — Fabio Brocca"
+  description="Podcast appearances and keynotes by Fabio Brocca: Product Thinking with Melissa Perri, The Freight Debate, Out of the Box, and Xeneta Summit."
+>
+  <section class="section">
+    <div class="container">
+      <p class="section-label">// on air</p>
+      <h1>Podcasts &amp; keynotes</h1>
+      <p class="lede muted">
+        Conversations about product leadership, AI in freight, and building
+        product orgs in complex industries. Add a new appearance by adding one
+        entry to <code class="mono">src/data/media.json</code>.
+      </p>
+    </div>
+  </section>
+
+  {withEmbed && (
+    <section class="section">
+      <div class="container">
+        <div class="embed-wrap">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${withEmbed.embed!.id}`}
+            title={withEmbed.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <p class="mono muted embed-caption">{withEmbed.show} — {withEmbed.title}</p>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container media-list">
+      {media.map((m) => (
+        <article class="card media-item">
+          <div class="media-thumb">
+            <SmartImage src={m.image} alt={`${m.show} artwork`} label={`${m.show} artwork`} aspect="1 / 1" />
+          </div>
+          <div class="media-body">
+            <div class="media-meta mono">
+              <span class:list={['badge', m.type]}>{m.type}</span>
+              <span class="muted">{m.show} · {m.date}</span>
+            </div>
+            <h3>{m.title}</h3>
+            <p class="muted">{m.summary}</p>
+            {Object.entries(m.links).length > 0 && (
+              <p class="media-links">
+                {Object.entries(m.links).map(([name, url]) => (
+                  <a href={url} target="_blank" rel="noopener" class="mono">{name} ↗</a>
+                ))}
+              </p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+    max-width: 40rem;
+  }
+
+  .embed-wrap {
+    aspect-ratio: 16 / 9;
+    max-width: 52rem;
+    margin: 0 auto;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 48px var(--accent-glow);
+  }
+
+  .embed-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .embed-caption {
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .media-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .media-item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .media-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .badge {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent-soft);
+  }
+
+  .badge.keynote {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .media-links {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  .media-links a {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 640px) {
+    .media-item {
+      grid-template-columns: 1fr;
+    }
+
+    .media-thumb {
+      max-width: 10rem;
+    }
+  }
+</style>

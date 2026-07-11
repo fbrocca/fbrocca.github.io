@@ -306,7 +306,6 @@ html[data-scheme='color'] .growbox { background: var(--plat); }
 }
 .doc {
   padding: 18px 26px 26px;
-  max-width: 62ch;
   font-size: 13.5px;
   line-height: 1.65;
 }

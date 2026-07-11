@@ -176,6 +176,7 @@ html[data-scheme='color'] .i-media  { --c-note: #d97706; --c-doc: #ffffff; }
 html[data-scheme='color'] .i-photo  { --c-cam: #c9d8ea; --c-lens: #33569c; }
 html[data-scheme='color'] .i-mail   { --c-env: #f6eedf; }
 html[data-scheme='color'] .i-trash  { --c-trash: #d9d9e0; }
+html[data-scheme='color'] .i-floppy { --c-flop: #8496c4; }
 html[data-scheme='color'] .i-warn   { --c-warn: #ffd34d; }
 html[data-scheme='color'] .i-stack  { --c-card: #fff3c4; }
 

@@ -1,0 +1,31 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+---
+<Desktop
+  title="Games — Fabio Brocca"
+  description="The games folder: Wolfenstein 3D and Prince of Persia, playable in the browser."
+>
+  <MacWindow title="Games" id="win-games" style="left:420px; top:180px; width:520px">
+    <div class="fstatus">2 items · click to play · both run entirely in your browser</div>
+    <table class="flist">
+      <thead><tr><th>Name</th><th>Year</th><th>Publisher</th></tr></thead>
+      <tbody>
+        <tr class="rowlink" data-href="/prince/"><td class="nm">🗡 Prince of Persia</td><td>1990</td><td>Brøderbund</td></tr>
+        <tr class="rowlink" data-href="/game/"><td class="nm">🔫 Wolfenstein 3D</td><td>1992</td><td>id / Apogee</td></tr>
+      </tbody>
+    </table>
+  </MacWindow>
+</Desktop>
+
+<style>
+  .rowlink { cursor: pointer; }
+  .rowlink:hover td { background: #000; color: #fff; }
+  :global(html[data-scheme='color']) .rowlink:hover td { background: var(--hl); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.rowlink').forEach((tr) => {
+    tr.addEventListener('click', () => { location.href = tr.dataset.href!; });
+  });
+</script>

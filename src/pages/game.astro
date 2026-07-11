@@ -15,7 +15,7 @@ import MacWindow from '../components/MacWindow.astro';
 <link rel="stylesheet" href="/wolf3d/js-dos.css" />
 
 <style>
-  #win-wolf :global(.wbody) { display: flex; flex-direction: column; overflow: hidden; background: #000; }
+  :global(#win-wolf .wbody) { display: flex; flex-direction: column; overflow: hidden; background: #000; }
   .dos-stage { flex: 1; min-height: 0; position: relative; }
   .dos-stage :global(.jsdos-rso) { width: 100%; height: 100%; }
 </style>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Prince of Persia</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+    body { display: flex; align-items: center; justify-content: center; }
+    #gameContainer { width: 640px; height: 400px; transform-origin: center center; flex: none; }
+    #gameContainer canvas { display: block; }
+  </style>
+  <script defer src="main.js"></script>
+  <script>
+    // scale the fixed 640x400 game to fit the window, preserving aspect
+    function fit() {
+      const el = document.getElementById('gameContainer');
+      if (!el) return;
+      const k = Math.min(window.innerWidth / 640, window.innerHeight / 400);
+      el.style.transform = 'scale(' + k + ')';
+    }
+    window.addEventListener('resize', fit);
+    window.addEventListener('DOMContentLoaded', () => { fit(); setTimeout(fit, 500); });
+  </script>
+</head>
+<body>
+  <div id="gameContainer"></div>
+</body>
+</html>

@@ -2,6 +2,24 @@
 import Desktop from '../layouts/Desktop.astro';
 import MacWindow from '../components/MacWindow.astro';
 import SmartImage from '../components/SmartImage.astro';
+import worldmap from '../data/worldmap.json';
+
+// equirectangular projection matching the world map data
+const px = (lon: number) => ((lon + 180) / 360) * 1000;
+const py = (lat: number) => ((78 - lat) / 136) * worldmap.H;
+
+const stops = [
+  { name: 'Padua, Italy', roman: 'I', x: px(11.88), y: py(45.41) },
+  { name: 'Charleston, SC', roman: 'II', x: px(-79.93), y: py(32.78) },
+  { name: 'Seattle, WA', roman: 'III', x: px(-122.33), y: py(47.61) },
+  { name: 'Oslo, Norway', roman: 'IV', x: px(10.75), y: py(59.91) },
+];
+
+const routes = [
+  `M${stops[0].x.toFixed(1)} ${stops[0].y.toFixed(1)} Q 400 42 ${stops[1].x.toFixed(1)} ${stops[1].y.toFixed(1)}`,
+  `M${stops[1].x.toFixed(1)} ${stops[1].y.toFixed(1)} Q 208 96 ${stops[2].x.toFixed(1)} ${stops[2].y.toFixed(1)}`,
+  `M${stops[2].x.toFixed(1)} ${stops[2].y.toFixed(1)} Q 345 6 ${stops[3].x.toFixed(1)} ${stops[3].y.toFixed(1)}`,
+];
 
 const chapters = [
   {
@@ -62,47 +80,43 @@ const education = [
   'BS, Engineering — University of Padua (2012)',
   'SVPG Product Management · MIT Supply Chain Design · Lean Six Sigma Green Belt',
 ];
-
-const cards = [
-  { k: 'Card 1 of 3', co: 'MSC', role: 'Director, Business Transformation · 2013 – 2020', p: 'Built the first data science and automation teams at the world’s largest container shipping company. Where 90% of world trade starts: the water.', modes: '☒ Ocean ☐ Air ☐ Road' },
-  { k: 'Card 2 of 3', co: 'Amazon', role: 'Head of Product, Global Transportation Technology · 2020 – 2024', p: '10+ products, 30,000+ users, and the supply chain automation behind one of the largest fulfillment networks on Earth. From port-to-port to door-to-door.', modes: '☒ Ocean ☒ Air ☒ Road' },
-  { k: 'Card 3 of 3', co: 'Xeneta', role: 'Chief Product Officer · 2024 – now', p: 'Leading product for the world’s largest freight rate intelligence platform — agentic AI, industry-first derivatives, 500+ enterprise customers. Making the network intelligent.', modes: '☒ Ocean ☒ Air ☒ Data layer' },
-];
 ---
 <Desktop
   title="The Journey — Fabio Brocca"
   description="From the export desk at MSC to CPO at Xeneta, via planet-scale product at Amazon: the journey of a product executive in freight, logistics, and AI."
 >
-  <MacWindow title="Career Stack" id="win-career" style="left:60px; top:380px; width:480px; height:320px" class="stagger-2">
-    <div class="stack" data-pager>
-      {cards.map((c, i) => (
-        <div class:list={['card', { show: i === 0 }]} data-page>
-          <span class="k">{c.k}</span>
-          <h2>{c.co}</h2>
-          <div class="role">{c.role}</div>
-          <p>{c.p}</p>
-          <div class="modes">{c.modes}</div>
-        </div>
+  <MacWindow title="The Map" id="win-map" style="left:680px; top:110px; width:620px" class="stagger-2">
+    <div class="fstatus" id="map-status">Chapter I · Padua, Italy</div>
+    <svg id="jmap" viewBox={`0 0 1000 ${worldmap.H}`} role="img" aria-label="World map following the journey: Padua, Charleston, Seattle, Oslo">
+      <path class="mapdots" d={worldmap.dots} />
+      {routes.map((d, i) => (
+        <path class="jroute" id={`route-${i}`} d={d} />
       ))}
-      <div class="nav">
-        <button class="mbtn" type="button" data-prev>◀</button>
-        <span class="dots" data-dots></span>
-        <button class="mbtn" type="button" data-next>▶</button>
-      </div>
-    </div>
+      {stops.map((s, i) => (
+        <g class:list={['jstop', { active: i === 0, future: i !== 0 }]} data-i={i} data-name={s.name} data-roman={s.roman}>
+          <circle class="ring" cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} r="7" />
+          <circle class="core" cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} r="2.6" />
+          <text
+            x={(s.x + (s.name === 'Oslo, Norway' || s.name === 'Padua, Italy' ? 10 : -10)).toFixed(1)}
+            y={(s.y + (s.name === 'Padua, Italy' ? 12 : 3)).toFixed(1)}
+            text-anchor={s.name === 'Oslo, Norway' ? 'start' : s.name === 'Padua, Italy' ? 'middle' : 'end'}
+          >{s.name.toUpperCase()}</text>
+        </g>
+      ))}
+    </svg>
   </MacWindow>
 
-  <MacWindow title="The Journey" id="win-journey" style="left:180px; top:56px; width:640px; height:660px" zoom={true}>
+  <MacWindow title="The Journey" id="win-journey" style="left:50px; top:56px; width:610px; height:660px" zoom={true}>
     <div class="ruler"></div>
     <div class="doc">
       <div class="post-head">
         <h1>From the dock to the board room</h1>
-        <p class="meta">Fifteen-plus years building data-driven AI platforms in freight, logistics, and supply chain — told in four chapters.</p>
+        <p class="meta">Fifteen-plus years building data-driven AI platforms in freight, logistics, and supply chain — told in four chapters. Watch the map.</p>
       </div>
 
-      {chapters.map((c) => (
+      {chapters.map((c, i) => (
         <>
-          <h2>{c.label} — {c.title}</h2>
+          <h2 data-stop={i}>{c.label} — {c.title}</h2>
           <SmartImage src={c.image} alt={c.imageLabel} label={c.imageLabel} aspect="4 / 3" />
           {c.body.map((p) => <p>{p}</p>)}
         </>
@@ -125,4 +139,152 @@ const cards = [
 
 <style>
   .doc :global(.mac-photo) { margin: 6px 0 14px; }
+
+  #jmap { display: block; width: 100%; height: auto; }
+
+  .mapdots {
+    stroke: #000;
+    opacity: 0.22;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    fill: none;
+  }
+  :global(html[data-scheme='color']) .mapdots { stroke: #33569c; opacity: 0.3; }
+
+  /* the travel line, drawn progressively (dasharray/offset set by script) */
+  .jroute {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.4s ease;
+  }
+  :global(html[data-scheme='color']) .jroute { stroke: #b03a2e; }
+
+  .jstop .core { fill: #000; }
+  .jstop .ring {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1.2;
+    opacity: 0;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .jstop text {
+    font-family: var(--chicago);
+    font-size: 7.5px;
+    letter-spacing: 0.06em;
+    fill: #000;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 2.5px;
+    stroke-linejoin: round;
+  }
+  .jstop.future { opacity: 0.3; }
+  .jstop.active { opacity: 1; }
+  .jstop.active .ring { opacity: 0.8; animation: stop-pulse 2.6s ease-out infinite; }
+  :global(html[data-scheme='color']) .jstop.active .core { fill: #b03a2e; }
+  :global(html[data-scheme='color']) .jstop.active .ring { stroke: #b03a2e; }
+
+  @keyframes stop-pulse {
+    0% { transform: scale(0.4); opacity: 0.9; }
+    75% { transform: scale(1.9); opacity: 0; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jroute { transition: none; }
+    .jstop.active .ring { animation: none; opacity: 0.8; }
+  }
 </style>
+
+<script>
+  const svg = document.getElementById('jmap');
+  const statusBar = document.getElementById('map-status');
+  const wbody = document.querySelector('#win-journey .wbody');
+
+  if (svg && statusBar && wbody) {
+    const W = 1000;
+    const H = svg.viewBox.baseVal.height;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const stopEls = Array.from(svg.querySelectorAll<SVGGElement>('.jstop'));
+    const stops = stopEls.map((g) => {
+      const c = g.querySelector('circle.core')!;
+      return {
+        el: g,
+        x: +c.getAttribute('cx')!,
+        y: +c.getAttribute('cy')!,
+        name: g.dataset.name!,
+        roman: g.dataset.roman!,
+      };
+    });
+
+    /* prepare the travel lines for draw-on animation */
+    const routeEls = Array.from(svg.querySelectorAll<SVGPathElement>('.jroute'));
+    routeEls.forEach((r) => {
+      const len = r.getTotalLength();
+      r.style.strokeDasharray = String(len);
+      r.style.strokeDashoffset = String(len);
+    });
+
+    /* animated viewBox: pan & zoom toward the active stop */
+    const ZOOM_W = 430;
+    const ZOOM_H = (ZOOM_W / W) * H * 1.15;
+    let cur = [0, 0, W, H];
+    let target = [0, 0, W, H];
+    let raf = 0;
+
+    function viewFor(s: { x: number; y: number }) {
+      const x = Math.max(0, Math.min(s.x - ZOOM_W / 2, W - ZOOM_W));
+      const y = Math.max(0, Math.min(s.y - ZOOM_H / 2, H - ZOOM_H));
+      return [x, y, ZOOM_W, ZOOM_H];
+    }
+
+    function step() {
+      const k = reduced ? 1 : 0.07;
+      let done = true;
+      cur = cur.map((v, i) => {
+        const n = v + (target[i] - v) * k;
+        if (Math.abs(target[i] - n) > 0.3) done = false;
+        return n;
+      });
+      if (done) cur = [...target];
+      svg!.setAttribute('viewBox', cur.map((v) => v.toFixed(2)).join(' '));
+      if (!done) raf = requestAnimationFrame(step);
+    }
+
+    let active = -1;
+    function activate(i: number) {
+      if (i === active) return;
+      active = i;
+      const s = stops[i];
+      stops.forEach((st, n) => {
+        st.el.classList.toggle('active', n === i);
+        st.el.classList.toggle('future', n > i);
+      });
+      routeEls.forEach((r, n) => {
+        r.style.strokeDashoffset = n < i ? '0' : r.style.strokeDasharray;
+      });
+      statusBar!.textContent = `Chapter ${s.roman} · ${s.name}`;
+      target = viewFor(s);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(step);
+    }
+
+    /* follow the reader: whichever chapter heading crosses the upper part
+       of the journey window sets the map's destination */
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) activate(+(e.target as HTMLElement).dataset.stop!);
+        });
+      },
+      { root: wbody, rootMargin: '-10% 0px -60% 0px' }
+    );
+    document.querySelectorAll<HTMLElement>('[data-stop]').forEach((h) => io.observe(h));
+
+    /* open on the full world, then fly to chapter one */
+    setTimeout(() => activate(0), reduced ? 0 : 700);
+  }
+</script>

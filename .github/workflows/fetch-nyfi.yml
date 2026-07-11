@@ -1,0 +1,43 @@
+name: Fetch NYFI index data
+
+on:
+  schedule:
+    # Daily at 15:30 UTC. NYFI publishes weekly on Fridays ~10:00 ET
+    # (14:00/15:00 UTC depending on DST), so a daily run picks up each new
+    # publication the day it lands and is a no-op otherwise.
+    - cron: '30 15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-nyfi
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch NYFI data
+        env:
+          NYSHEX_API_KEY: ${{ secrets.NYSHEX_API_KEY }}
+        run: node scripts/fetch-nyfi.mjs
+
+      - name: Commit and push if data changed
+        run: |
+          if git diff --quiet -- public/data/nyfi; then
+            echo "No new NYFI data."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/nyfi
+          git commit -m "Update NYFI index data"
+          git push

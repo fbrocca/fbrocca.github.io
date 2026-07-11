@@ -81,6 +81,28 @@ Add one entry to `src/data/media.json`. Fields: `type` (`podcast` | `keynote`),
 `show`, `title`, `date`, `summary`, `image`, `featured`, and `links`
 (label → URL).
 
+## 📈 NYFI freight index data
+
+The repo pulls the **NYSHEX Freight Indices (NYFI)** from the free official
+NYFI API and stores them under `public/data/nyfi/` (`history.json` +
+`history.csv`), so the deployed site serves them at
+`/data/nyfi/history.json`. A GitHub Action (`fetch-nyfi.yml`) runs daily at
+15:30 UTC and commits only when new data appears — NYSHEX publishes NYFI
+weekly on Fridays ~10:00 ET, so expect one new data point per week.
+
+One-time setup:
+
+1. Create a free account at [nyshex.com](https://nyshex.com) and generate an
+   API key (Help Center → NYFI API Documentation).
+2. Repo → Settings → Secrets and variables → Actions → add secret
+   **`NYSHEX_API_KEY`**.
+3. Run the workflow once manually (Actions → "Fetch NYFI index data" →
+   Run workflow) to backfill the last 12 months.
+
+If the official docs specify a different auth header than `x-api-key`, set it
+via the `NYSHEX_API_KEY_HEADER` env var in the workflow. To backfill further
+than 12 months, run locally with `NYSHEX_START_DATE=2023-01-01`.
+
 ## 🛠 Local development
 
 ```bash

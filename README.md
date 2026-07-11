@@ -71,6 +71,13 @@ playable classics, both fully self-hosted:
    can edit imported posts and safely re-run after the next export.
    Use `--dry-run` to preview. Review, delete what you don't want, push.
 
+### Posting from anywhere (phone included)
+
+Repo → **Actions → "New blog post" → Run workflow** → paste the text of the
+post (e.g. a LinkedIn post you just published), optionally add the link to
+the original, and run. The post is committed and the site redeploys —
+about a minute end to end. Tick "draft" to stage it without publishing.
+
 Add `draft: true` to the frontmatter to keep a post out of the published site
 while you work on it. The filename becomes the URL: `my-post.md` →
 `/blog/my-post/`. Posts open in a MacWrite-style document window.

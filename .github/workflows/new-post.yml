@@ -1,0 +1,61 @@
+name: New blog post
+
+# Publish a post from anywhere (including your phone):
+# GitHub → Actions → "New blog post" → Run workflow → paste the text.
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        description: 'Post text (paste your LinkedIn post here)'
+        required: true
+        type: string
+      title:
+        description: 'Title (optional — derived from the first sentence if empty)'
+        required: false
+        type: string
+      tags:
+        description: 'Tags, comma-separated'
+        required: false
+        default: 'linkedin'
+        type: string
+      source_url:
+        description: 'Link to the original post (optional)'
+        required: false
+        type: string
+      draft:
+        description: 'Save as draft (not published)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create the post
+        env:
+          POST_TEXT: ${{ inputs.text }}
+          POST_TITLE: ${{ inputs.title }}
+          POST_TAGS: ${{ inputs.tags }}
+          POST_SOURCE_URL: ${{ inputs.source_url }}
+          POST_DRAFT: ${{ inputs.draft && 'true' || 'false' }}
+        run: node scripts/new-post.mjs
+
+      - name: Commit and push
+        run: |
+          git config user.name "post-bot"
+          git config user.email "actions@github.com"
+          git add src/content/blog
+          git commit -m "New post via Actions"
+          git push
+
+      - name: Trigger deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main --repo ${{ github.repository }}

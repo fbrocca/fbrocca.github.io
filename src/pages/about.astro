@@ -27,6 +27,7 @@ const chapters = [
     title: 'Padua, Italy',
     image: '/images/journey/padua.jpg',
     imageLabel: 'Photo — early days / Italy',
+    caption: 'Chapter I · Padua, 2012',
     body: [
       'I grew up in Italy and studied engineering at the University of Padua — one of the oldest universities in the world, where Galileo once taught. I left with a degree in industrial engineering and a conviction that the most interesting problems live where physical operations meet software.',
       'Global shipping turned out to be exactly that kind of problem.',
@@ -37,6 +38,7 @@ const chapters = [
     title: 'MSC — learning the ocean',
     image: '/images/journey/msc.jpg',
     imageLabel: 'Photo — MSC years',
+    caption: 'Chapter II · MSC, Charleston, 2013 – 2020',
     body: [
       'I joined Mediterranean Shipping Company, the world’s largest container carrier, and worked my way up from the export desk: built and led a 17-person export team, then became P&L owner for MSC’s Southeast US region — the largest MSC office in North America, 350+ employees and $10M+ EBITDA a year, reporting to the CEO. Along the way I founded the MSC Academy, a leadership program that spread to six agencies.',
       'Then I moved from running operations to transforming them. As Director of Business Transformation I built MSC’s first data science and software product teams, launched a worldwide automation program that took on 50+ processes and returned $50M+ in annual savings, rolled out ERP and CRM platforms across ten countries, and stood up a 300-engineer technology center in Chennai.',
@@ -48,6 +50,7 @@ const chapters = [
     title: 'Amazon — planet-scale product',
     image: '/images/journey/amazon.jpg',
     imageLabel: 'Photo — Amazon years',
+    caption: 'Chapter III · Amazon, Seattle, 2020 – 2024',
     body: [
       'At Amazon I went deep on zero-to-one: as Senior Technical PM for Vehicle Telematics I built an AI/ML predictive maintenance product for the largest last-mile fleet in the world — telematics, edge computing, cameras, EV integrations — worth $100M+ in NPV, one of the largest single-product AI investments in Amazon transportation at the time.',
       'Then I went wide: as Head of Product for Global Transportation Technology I led a portfolio of 10+ products used by 30,000+ people across North America, Europe, and APAC, and served as worldwide product lead for Supply Chain Configuration Automation — the multi-year program optimizing Amazon’s fulfillment network that generated over $1B in ROI in 2022.',
@@ -59,6 +62,7 @@ const chapters = [
     title: 'Xeneta — bringing transparency to freight',
     image: '/images/journey/xeneta.jpg',
     imageLabel: 'Photo — Xeneta / Summit keynote',
+    caption: 'Chapter IV · Xeneta, Oslo, 2024 – present',
     body: [
       'Today I’m the Chief Product Officer at Xeneta, the world’s largest ocean and air freight rate intelligence platform. I’m the company’s first CPO, and I lead a 40+ person organization spanning product management, UX design, product marketing, sales enablement, value engineering, and market intelligence across Europe, Asia, and the US.',
       'Since I joined we’ve grown ARR more than 30% year over year — by shipping agentic AI into procurement workflows (a freight industry first), launching industry-first financial derivatives, and expanding into new data products. I sit on the executive team, contribute to company strategy, M&A, and board work, and I still review products like a PM.',
@@ -85,9 +89,14 @@ const education = [
   title="The Journey — Fabio Brocca"
   description="From the export desk at MSC to CPO at Xeneta, via planet-scale product at Amazon: the journey of a product executive in freight, logistics, and AI."
 >
-  <MacWindow title="The Map" id="win-map" style="left:680px; top:110px; width:620px" class="stagger-2">
+  <MacWindow
+    title="The Map"
+    id="win-map"
+    style="left:calc(50vw - 20px); top:calc(50% + 16px); width:calc(50vw - 140px); height:calc(50% - 60px)"
+    class="stagger-2"
+  >
     <div class="fstatus" id="map-status">Chapter I · Padua, Italy</div>
-    <svg id="jmap" viewBox={`0 0 1000 ${worldmap.H}`} role="img" aria-label="World map following the journey: Padua, Charleston, Seattle, Oslo">
+    <svg id="jmap" viewBox={`0 0 1000 ${worldmap.H}`} preserveAspectRatio="xMidYMid slice" role="img" aria-label="World map following the journey: Padua, Charleston, Seattle, Oslo">
       <path class="mapdots" d={worldmap.dots} />
       {routes.map((d, i) => (
         <path class="jroute" id={`route-${i}`} d={d} />
@@ -106,7 +115,28 @@ const education = [
     </svg>
   </MacWindow>
 
-  <MacWindow title="The Journey" id="win-journey" style="left:50px; top:56px; width:610px; height:660px" zoom={true}>
+  <MacWindow
+    title="Photos"
+    id="win-jphotos"
+    style="left:calc(50vw - 20px); top:44px; width:calc(50vw - 140px); height:calc(50% - 44px)"
+    class="stagger-2"
+  >
+    <div class="photo-stage">
+      {chapters.map((c, i) => (
+        <figure class:list={['jphoto', { show: i === 0 }]} data-photo={i}>
+          <SmartImage src={c.image} alt={c.imageLabel} label={c.imageLabel} aspect="4 / 3" />
+          <figcaption>{c.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </MacWindow>
+
+  <MacWindow
+    title="The Journey"
+    id="win-journey"
+    style="left:30px; top:44px; width:calc(50vw - 80px); height:calc(100% - 62px)"
+    zoom={true}
+  >
     <div class="ruler"></div>
     <div class="doc">
       <div class="post-head">
@@ -117,7 +147,9 @@ const education = [
       {chapters.map((c, i) => (
         <>
           <h2 data-stop={i}>{c.label} — {c.title}</h2>
-          <SmartImage src={c.image} alt={c.imageLabel} label={c.imageLabel} aspect="4 / 3" />
+          <div class="inline-photo">
+            <SmartImage src={c.image} alt={c.imageLabel} label={c.imageLabel} aspect="4 / 3" />
+          </div>
           {c.body.map((p) => <p>{p}</p>)}
         </>
       ))}
@@ -138,9 +170,47 @@ const education = [
 </Desktop>
 
 <style>
-  .doc :global(.mac-photo) { margin: 6px 0 14px; }
+  /* larger reading size for the story */
+  #win-journey .doc { font-size: 15px; line-height: 1.7; }
+  #win-journey .doc :global(h2) { font-size: 18px; }
+  #win-journey .doc :global(h1) { font-size: 21px; }
 
-  #jmap { display: block; width: 100%; height: auto; }
+  /* photos live in their own window on desktop; inline only on phones */
+  .inline-photo { display: none; }
+  @media (max-width: 720px) {
+    .inline-photo { display: block; margin: 6px 0 14px; }
+  }
+
+  /* ---- Photos window ---- */
+  #win-jphotos :global(.wbody) { overflow: hidden; }
+  .photo-stage { height: 100%; position: relative; }
+  .jphoto {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 14px 16px 10px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .jphoto.show { display: flex; animation: photo-in 0.5s ease; }
+  @keyframes photo-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .jphoto :global(.mac-photo) {
+    flex: 1;
+    min-height: 0;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+  }
+  .jphoto figcaption { flex: none; font-size: 12.5px; text-align: center; }
+
+  /* ---- Map window ---- */
+  #win-map :global(.wbody) { display: flex; flex-direction: column; overflow: hidden; }
+  #jmap { flex: 1; min-height: 0; width: 100%; display: block; }
 
   .mapdots {
     stroke: #000;
@@ -195,6 +265,7 @@ const education = [
   @media (prefers-reduced-motion: reduce) {
     .jroute { transition: none; }
     .jstop.active .ring { animation: none; opacity: 0.8; }
+    .jphoto.show { animation: none; }
   }
 </style>
 
@@ -205,7 +276,7 @@ const education = [
 
   if (svg && statusBar && wbody) {
     const W = 1000;
-    const H = svg.viewBox.baseVal.height;
+    const H = (svg as unknown as SVGSVGElement).viewBox.baseVal.height;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const stopEls = Array.from(svg.querySelectorAll<SVGGElement>('.jstop'));
@@ -219,6 +290,7 @@ const education = [
         roman: g.dataset.roman!,
       };
     });
+    const photoEls = Array.from(document.querySelectorAll<HTMLElement>('.jphoto'));
 
     /* prepare the travel lines for draw-on animation */
     const routeEls = Array.from(svg.querySelectorAll<SVGPathElement>('.jroute'));
@@ -266,6 +338,7 @@ const education = [
       routeEls.forEach((r, n) => {
         r.style.strokeDashoffset = n < i ? '0' : r.style.strokeDasharray;
       });
+      photoEls.forEach((p, n) => p.classList.toggle('show', n === i));
       statusBar!.textContent = `Chapter ${s.roman} · ${s.name}`;
       target = viewFor(s);
       cancelAnimationFrame(raf);

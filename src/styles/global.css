@@ -15,6 +15,9 @@
 :root {
   --chicago: 'Chicago', 'Charcoal', system-ui, sans-serif;
   --geneva: 'Geneva', 'Helvetica Neue', 'Liberation Sans', Arial, sans-serif;
+  /* documents on a classic Mac were set in New York, a serif — Georgia is
+     its highly readable, universally installed descendant */
+  --newyork: Georgia, 'Charter', 'Iowan Old Style', 'Times New Roman', serif;
   --mono: 'Monaco', ui-monospace, monospace;
 }
 
@@ -40,6 +43,10 @@ body {
   font-family: var(--geneva);
   color: #000;
   overflow: hidden;
+}
+
+/* keep the crisp pixel rendering for UI chrome only — body text stays smooth */
+.menubar, .menu, .titlebar, .dicon, .mbtn, .fstatus, .flist {
   -webkit-font-smoothing: none;
 }
 
@@ -306,15 +313,16 @@ html[data-scheme='color'] .growbox { background: var(--plat); }
 }
 .doc {
   padding: 18px 26px 26px;
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-family: var(--newyork);
+  font-size: 15px;
+  line-height: 1.75;
 }
 .doc h1, .doc h2 { font-family: var(--chicago); font-weight: normal; }
 .doc h1 { font-size: 18px; margin: 0 0 0.3em; }
 .doc h2 { font-size: 16px; margin: 1.4em 0 0.3em; }
 .doc h2:first-child { margin-top: 0; }
 .doc h3 { font-family: var(--chicago); font-size: 14px; font-weight: normal; margin: 1.2em 0 0.2em; }
-.doc .meta { font-size: 11.5px; color: #444; }
+.doc .meta { font-family: var(--geneva); font-size: 11.5px; color: #444; }
 .doc p { margin: 0.4em 0 0.9em; }
 .doc ul, .doc ol { margin: 0.3em 0 1em; padding-left: 1.3em; }
 .doc li { margin: 0.25em 0; }

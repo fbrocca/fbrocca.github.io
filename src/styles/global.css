@@ -241,6 +241,35 @@ html[data-scheme='color'] .tbox { background: var(--plat); }
 .wbody { flex: 1; overflow: auto; position: relative; }
 .wbody.pad { padding: 14px 16px; }
 
+/* grow box (resize handle, System 7 style) */
+.growbox {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #fff;
+  cursor: nwse-resize;
+  z-index: 6;
+  touch-action: none;
+}
+.growbox::before,
+.growbox::after {
+  content: '';
+  position: absolute;
+  border: 1px solid #000;
+  background: #fff;
+}
+.growbox::before { left: 5px; top: 5px; width: 7px; height: 7px; }
+.growbox::after { left: 2px; top: 2px; width: 6px; height: 6px; }
+html[data-scheme='color'] .growbox { background: var(--plat); }
+.win:not(.active) .growbox { visibility: hidden; }
+@media (max-width: 720px) {
+  .growbox { display: none; }
+}
+
 .win ::-webkit-scrollbar { width: 14px; height: 14px; }
 .win ::-webkit-scrollbar-track { background: #fff; border-left: 1px solid #000; }
 .win ::-webkit-scrollbar-thumb { background: #fff; border: 1px solid #000; }

@@ -2,7 +2,7 @@
 
 Personal site of **Fabio Brocca** — Chief Product Officer. Built with
 [Astro](https://astro.build), served by GitHub Pages at
-**https://fbrocca.github.io**.
+**https://www.fabiobrocca.tech** (also reachable at fbrocca.github.io).
 
 The site is a working **Classic Macintosh (System 7) desktop**: menu bar,
 draggable windows, desktop icons, a boot screen, and a Scrapbook. COLOR by
@@ -78,14 +78,15 @@ npm run build      # production build into dist/
 npm run preview    # serve the production build locally
 ```
 
-## 🌐 Custom domain (later)
+## 🌐 Custom domain
 
-1. Buy a domain (e.g. `fabiobrocca.com`).
-2. Repo → Settings → Pages → Custom domain → enter it (GitHub creates a
-   `CNAME` file).
-3. At your DNS provider: `CNAME` record `www` → `fbrocca.github.io`, plus the
-   four GitHub Pages `A` records on the apex. Enable "Enforce HTTPS".
-4. Update `site` in `astro.config.mjs` to the new domain.
+The site runs on **www.fabiobrocca.tech**:
+
+- DNS: `CNAME` record `www` → `fbrocca.github.io`, plus the four GitHub
+  Pages `A` records on the apex (185.199.108–111.153).
+- Repo → Settings → Pages → Custom domain: `www.fabiobrocca.tech`,
+  with "Enforce HTTPS" enabled.
+- `site` in `astro.config.mjs` points at the domain (canonicals, sitemap, RSS).
 
 ## 📁 Structure
 

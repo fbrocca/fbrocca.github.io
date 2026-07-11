@@ -309,6 +309,31 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           w.style.top = `${y}px`;
         });
         tb.addEventListener('pointerup', () => { drag = null; });
+
+        /* resize via the grow box */
+        const gb = w.querySelector<HTMLElement>('.growbox');
+        if (gb) {
+          let grow: { w0: number; h0: number; x0: number; y0: number; s: DOMRect } | null = null;
+          gb.addEventListener('pointerdown', (e) => {
+            if (w.classList.contains('zoomed')) return;
+            const r = w.getBoundingClientRect();
+            grow = { w0: r.width, h0: r.height, x0: e.clientX, y0: e.clientY, s: screen.getBoundingClientRect() };
+            gb.setPointerCapture(e.pointerId);
+            e.preventDefault();
+            e.stopPropagation();
+          });
+          gb.addEventListener('pointermove', (e) => {
+            if (!grow) return;
+            const r = w.getBoundingClientRect();
+            const maxW = grow.s.right - r.left - 4;
+            const maxH = grow.s.bottom - r.top - 4;
+            const width = Math.max(260, Math.min(grow.w0 + (e.clientX - grow.x0), maxW));
+            const height = Math.max(140, Math.min(grow.h0 + (e.clientY - grow.y0), maxH));
+            w.style.width = `${width}px`;
+            w.style.height = `${height}px`;
+          });
+          gb.addEventListener('pointerup', () => { grow = null; });
+        }
       });
 
       // activate the frontmost window on load

@@ -1,0 +1,33 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+---
+<Desktop
+  title="Wolfenstein 3D — Fabio Brocca"
+  description="Play the Wolfenstein 3D shareware episode (1992) in the browser — running in DOSBox via js-dos, on a Classic Macintosh desktop."
+>
+  <MacWindow title="Wolfenstein 3D" id="win-wolf" style="left:calc(50vw - 390px); top:60px; width:780px; height:620px" zoom={true}>
+    <div class="fstatus">Shareware Episode 1 · © id Software, 1992 · ↑↓←→ move · Ctrl fire · Space opens doors · Esc menu</div>
+    <div id="dos" class="dos-stage"></div>
+  </MacWindow>
+</Desktop>
+
+<link rel="stylesheet" href="/wolf3d/js-dos.css" />
+
+<style>
+  #win-wolf :global(.wbody) { display: flex; flex-direction: column; overflow: hidden; background: #000; }
+  .dos-stage { flex: 1; min-height: 0; position: relative; }
+  .dos-stage :global(.jsdos-rso) { width: 100%; height: 100%; }
+</style>
+
+<script is:inline src="/wolf3d/js-dos.js"></script>
+<script is:inline>
+  Dos(document.getElementById('dos'), {
+    url: '/wolf3d/wolf3d.jsdos',
+    pathPrefix: '/wolf3d/emulators/',
+    theme: 'light',
+    kiosk: true,
+    autoStart: true,
+    noCloud: true,
+  });
+</script>

@@ -76,6 +76,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <a class="mi" href="/">About Fabio…</a>
         <hr />
         <a class="mi" href="/rss.xml">RSS Feed</a>
+        <a class="mi" href="/game/">Wolfenstein 3D</a>
         <div class="mi off">Alarm Clock</div>
         <div class="mi off">Puzzle</div>
       </div>
@@ -128,7 +129,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <span class="lbl">Fabio HD</span>
         </a>
 
-        <a class="dicon i-doc" style="right:22px; top:132px" href="/resume/">
+        <a class="dicon i-doc" style="right:22px; top:126px" href="/resume/">
           <svg width="30" height="38" viewBox="0 0 26 34" shape-rendering="crispEdges" aria-hidden="true">
             <path d="M2 1 h16 l6 6 v26 h-22 z" fill="var(--c-doc,#fff)" stroke="#000" stroke-width="2"/>
             <path d="M18 1 v6 h6" fill="none" stroke="#000" stroke-width="2"/>
@@ -140,7 +141,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <span class="lbl">Résumé</span>
         </a>
 
-        <a class="dicon i-map" style="right:22px; top:222px" href="/about/">
+        <a class="dicon i-map" style="right:22px; top:208px" href="/about/">
           <svg width="36" height="34" viewBox="0 0 32 28" shape-rendering="crispEdges" aria-hidden="true">
             <path d="M1 4 l10 -3 l10 3 l10 -3 v23 l-10 3 l-10 -3 l-10 3 z" fill="var(--c-map,#fff)" stroke="#000" stroke-width="2"/>
             <path d="M11 1 v23 M21 4 v23" fill="none" stroke="#000" stroke-width="1.4"/>
@@ -149,7 +150,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <span class="lbl">The Journey</span>
         </a>
 
-        <a class="dicon i-doc i-news" style="right:22px; top:314px" href="/blog/">
+        <a class="dicon i-doc i-news" style="right:22px; top:290px" href="/blog/">
           <svg width="30" height="38" viewBox="0 0 26 34" shape-rendering="crispEdges" aria-hidden="true">
             <path d="M2 1 h16 l6 6 v26 h-22 z" fill="var(--c-doc,#fff)" stroke="#000" stroke-width="2"/>
             <path d="M18 1 v6 h6" fill="none" stroke="#000" stroke-width="2"/>
@@ -161,7 +162,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <span class="lbl">Writing</span>
         </a>
 
-        <a class="dicon i-media" style="right:22px; top:406px" href="/media/">
+        <a class="dicon i-media" style="right:22px; top:372px" href="/media/">
           <svg width="32" height="36" viewBox="0 0 28 32" shape-rendering="crispEdges" aria-hidden="true">
             <rect x="2" y="2" width="24" height="28" fill="var(--c-doc,#fff)" stroke="#000" stroke-width="2"/>
             <rect x="16" y="8" width="2" height="12" fill="var(--c-note,#000)"/>
@@ -171,7 +172,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <span class="lbl">Media</span>
         </a>
 
-        <a class="dicon i-photo" style="right:22px; top:498px" href="/photos/">
+        <a class="dicon i-photo" style="right:22px; top:454px" href="/photos/">
           <svg width="34" height="30" viewBox="0 0 30 26" shape-rendering="crispEdges" aria-hidden="true">
             <rect x="1" y="4" width="28" height="20" fill="var(--c-cam,#fff)" stroke="#000" stroke-width="2"/>
             <rect x="10" y="1" width="10" height="4" fill="var(--c-cam,#fff)" stroke="#000" stroke-width="1.6"/>
@@ -182,12 +183,24 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <span class="lbl">Photos</span>
         </a>
 
-        <a class="dicon i-mail" style="right:22px; top:586px" href="/contact/">
+        <a class="dicon i-mail" style="right:22px; top:536px" href="/contact/">
           <svg width="34" height="30" viewBox="0 0 30 24" shape-rendering="crispEdges" aria-hidden="true">
             <rect x="1" y="1" width="28" height="22" fill="var(--c-env,#fff)" stroke="#000" stroke-width="2"/>
             <path d="M1 1 L15 13 L29 1" fill="none" stroke="#000" stroke-width="2"/>
           </svg>
           <span class="lbl">Contact</span>
+        </a>
+
+        <a class="dicon i-floppy" style="right:22px; top:618px" href="/game/">
+          <svg width="32" height="34" viewBox="0 0 28 30" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M1 1 h23 l3 3 v25 h-26 z" fill="var(--c-flop,#fff)" stroke="#000" stroke-width="2"/>
+            <rect x="7" y="1" width="13" height="9" fill="#fff" stroke="#000" stroke-width="1.6"/>
+            <rect x="15" y="3" width="3" height="5" fill="#000"/>
+            <rect x="5" y="15" width="18" height="12" fill="#fff" stroke="#000" stroke-width="1.6"/>
+            <rect x="8" y="18" width="12" height="1.5" fill="#000"/>
+            <rect x="8" y="21" width="12" height="1.5" fill="#000"/>
+          </svg>
+          <span class="lbl">Wolf3D</span>
         </a>
 
         <a class="dicon i-trash" style="right:22px; bottom:18px" href="/trash/">

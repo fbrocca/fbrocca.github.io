@@ -25,6 +25,12 @@ default (Macintosh II style); switch to 1-bit black & white via
 Also in the menus: **Special ▸ Toggle Desktop Pattern**, **Restart**
 (replays the boot screen), **Empty Trash…**, and a live menu-bar clock.
 
+There is also a playable **Wolfenstein 3D** (`/game/`, or the Wolf3D floppy
+on the desktop): the 1992 shareware episode running in DOSBox compiled to
+WebAssembly ([js-dos](https://js-dos.com), GPL-2.0), fully self-hosted in
+`public/wolf3d/`. The shareware episode is freely redistributable;
+Wolfenstein 3D © 1992 id Software.
+
 ## ✍️ Writing a blog post (3 steps)
 
 1. Create a new file in `src/content/blog/`, e.g. `my-post.md`:

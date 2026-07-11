@@ -13,3 +13,7 @@ node_modules/
 
 # OS / editor
 .DS_Store
+
+# LinkedIn data export (source for import:linkedin, never published)
+linkedin-export/
+Shares.csv

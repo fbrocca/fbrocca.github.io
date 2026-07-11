@@ -55,6 +55,22 @@ playable classics, both fully self-hosted:
 2. Commit and push to `main`.
 3. Done — GitHub Actions rebuilds and deploys automatically (~2 min).
 
+### Importing your LinkedIn posts
+
+1. LinkedIn → **Settings & Privacy → Data privacy → Get a copy of your data**
+   → select **Posts** → Request archive (arrives by email in ~10 minutes).
+2. Unzip it and run:
+
+   ```bash
+   npm run import:linkedin -- path/to/Shares.csv
+   ```
+
+   Every post longer than ~280 characters becomes a blog entry tagged
+   `linkedin`, with a link back to the original. Short posts are skipped
+   (tune with `--min-chars=`); existing files are never overwritten, so you
+   can edit imported posts and safely re-run after the next export.
+   Use `--dry-run` to preview. Review, delete what you don't want, push.
+
 Add `draft: true` to the frontmatter to keep a post out of the published site
 while you work on it. The filename becomes the URL: `my-post.md` →
 `/blog/my-post/`. Posts open in a MacWrite-style document window.

@@ -1,0 +1,29 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+---
+<Desktop
+  title="Prince of Persia — Fabio Brocca"
+  description="Play Prince of Persia (1990) in the browser — the PrinceJS HTML5 port, on a Classic Macintosh desktop."
+>
+  <MacWindow title="Prince of Persia" id="win-prince" style="left:calc(50vw - 390px); top:60px; width:780px; height:620px" zoom={true}>
+    <div class="fstatus">© 1990 Brøderbund · ←→ run · ↑ jump/climb · ↓ crouch/drop · Shift careful step / pick up · you have 60 minutes</div>
+    <iframe id="prince-frame" src="/prince/play.html" title="Prince of Persia game"></iframe>
+  </MacWindow>
+</Desktop>
+
+<style>
+  :global(#win-prince .wbody) { display: flex; flex-direction: column; overflow: hidden; background: #000; }
+  #prince-frame { flex: 1; min-height: 0; width: 100%; border: 0; background: #000; }
+</style>
+
+<script>
+  // keep keyboard focus on the game
+  const frame = document.getElementById('prince-frame') as HTMLIFrameElement | null;
+  if (frame) {
+    const focus = () => frame.contentWindow?.focus();
+    frame.addEventListener('load', focus);
+    document.getElementById('win-prince')?.addEventListener('pointerup', () => setTimeout(focus, 0));
+    setTimeout(focus, 500);
+  }
+</script>

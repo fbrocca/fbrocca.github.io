@@ -1,18 +1,13 @@
 ---
 import Desktop from '../layouts/Desktop.astro';
 import MacWindow from '../components/MacWindow.astro';
-import ResumeDoc from '../components/ResumeDoc.astro';
 ---
 <Desktop
   title="Fabio Brocca — Chief Product Officer"
   description="Product executive with 15+ years building data-driven AI platforms in freight, logistics, and supply chain. CPO at Xeneta, formerly Amazon and MSC."
   boot={true}
 >
-  <MacWindow title="Résumé" id="win-resume" style="left:560px; top:64px; width:620px; height:640px" zoom={true} class="stagger-2">
-    <ResumeDoc />
-  </MacWindow>
-
-  <MacWindow title="About Fabio" id="win-about" style="left:90px; top:70px; width:430px" pad={true}>
+  <MacWindow title="About Fabio" id="win-about" style="left:calc(50% - 210px); top:110px; width:420px" pad={true}>
     <div class="about-top">
       <svg class="i-mac" width="52" height="68" viewBox="0 0 30 40" shape-rendering="crispEdges" aria-hidden="true">
         <rect x="1" y="1" width="28" height="34" fill="var(--c-body,#fff)" stroke="#000" stroke-width="2"/>
@@ -33,15 +28,42 @@ import ResumeDoc from '../components/ResumeDoc.astro';
         <div class="sub">© Fabio Brocca 2011–2026</div>
       </div>
     </div>
-    <div class="about-info">
-      <b>Built-in Experience:</b> 15 years moving atoms with bits<br />
-      <b>Networks Installed:</b> Ocean · Air · Road<br />
-      <b>Largest Result:</b> $1B+ ROI from supply chain automation
-    </div>
-    <div class="ram">
-      <div class="row"><span class="co">Xeneta</span><span class="bar"><i style="width:20%"></i></span><span class="yrs">2024 – now</span></div>
-      <div class="row"><span class="co">Amazon</span><span class="bar"><i style="width:38%"></i></span><span class="yrs">2020 – 24</span></div>
-      <div class="row"><span class="co">MSC</span><span class="bar"><i style="width:64%"></i></span><span class="yrs">2013 – 20</span></div>
-    </div>
+
+    <p class="about-lede">
+      C-level executive with 15+ years building data-driven AI platforms in
+      freight, logistics, and supply chain.
+    </p>
+
+    <nav class="link-list" aria-label="Main links">
+      <a class="mbtn link-item" href="/resume/">Résumé</a>
+      <a class="mbtn link-item" href="/media/">Media</a>
+      <a class="mbtn link-item" href="/blog/">Blog</a>
+      <a class="mbtn link-item" href="https://www.linkedin.com/in/fabiobrocca/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </nav>
   </MacWindow>
 </Desktop>
+
+<style>
+  .about-lede {
+    font-size: 13px;
+    line-height: 1.6;
+    border-top: 1px solid #000;
+    padding-top: 12px;
+    margin: 0 0 14px;
+  }
+
+  .link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding-bottom: 4px;
+  }
+
+  .link-item {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    padding: 7px 18px;
+    font-size: 14px;
+  }
+</style>

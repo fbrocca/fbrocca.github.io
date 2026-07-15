@@ -1,0 +1,506 @@
+---
+// Deal Runner — DSCR + cash-flow analyzer for rental property deals.
+// Unlisted: no desktop icon, no menu entry, excluded from the sitemap,
+// noindex. All entered data stays in the visitor's localStorage.
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+---
+<Desktop
+  title="Deal Runner — Fabio Brocca"
+  description="DSCR and cash-flow analyzer for rental property deals."
+  noindex={true}
+>
+  <MacWindow
+    title="Deal Runner"
+    id="win-invest"
+    style="left:calc(50vw - 490px); top:44px; width:980px; height:calc(100% - 60px)"
+    zoom={true}
+  >
+    <div class="fstatus">
+      DSCR + HELOC cash-flow model · numbers update as you type · everything stays in this browser
+    </div>
+
+    <div class="inv">
+
+      <!-- ============ address / lookup ============ -->
+      <div class="inv-addr">
+        <input type="text" data-k="address" id="f-address" placeholder="Address or nickname (e.g. 4520 Mixson Ave, North Charleston)" />
+        <button class="mbtn" id="btn-lookup" type="button">Look&nbsp;Up</button>
+      </div>
+      <div class="inv-note" id="lk-note"></div>
+      <details class="inv-api">
+        <summary>RentCast API key (optional address lookup)</summary>
+        <p>
+          Look Up auto-fills value + rent estimates from
+          <a href="https://app.rentcast.io/app/api" target="_blank" rel="noopener">RentCast</a>
+          (free tier: 50 requests/mo; each lookup spends 3). The key is stored only in this browser.
+        </p>
+        <div class="inv-api-row">
+          <input type="text" id="f-apikey" placeholder="paste API key" autocomplete="off" />
+          <button class="mbtn" id="btn-savekey" type="button">Save Key</button>
+        </div>
+      </details>
+
+      <div class="inv-cols">
+        <!-- ============ inputs ============ -->
+        <form class="inv-form" id="deal-form" autocomplete="off">
+          <h2>Property</h2>
+          <div class="grid2">
+            <label>Price / offer $<input type="number" data-k="price" value="340000" step="1000" min="0" inputmode="decimal" /></label>
+            <label>Market value $<input type="number" data-k="marketValue" value="372000" step="1000" min="0" inputmode="decimal" /></label>
+            <label>Rent $/mo<input type="number" data-k="rent" value="2400" step="25" min="0" inputmode="decimal" /></label>
+            <label>Rehab budget $<input type="number" data-k="rehab" value="0" step="500" min="0" inputmode="decimal" /></label>
+            <label>HOA $/mo<input type="number" data-k="hoa" value="0" step="5" min="0" inputmode="decimal" /></label>
+            <label>Insurance $/mo<input type="number" data-k="insurance" value="250" step="5" min="0" inputmode="decimal" /></label>
+            <label>Tax rate %/yr<input type="number" data-k="taxRatePct" value="1.75" step="0.05" min="0" inputmode="decimal" /></label>
+            <label>Tax $/mo (override)<input type="number" data-k="taxMonthly" value="0" step="10" min="0" inputmode="decimal" /></label>
+          </div>
+          <p class="hint">Tax rate ≈ 1.75% of price at the SC 6% investor ratio (not the 4% owner-occupied figure on listings). A $/mo override wins if set.</p>
+
+          <h2>Financing</h2>
+          <div class="grid2">
+            <label>LTV %<input type="number" data-k="ltvPct" value="75" step="1" min="0" max="100" inputmode="decimal" /></label>
+            <label>DSCR rate %<input type="number" data-k="ratePct" value="6.50" step="0.05" min="0" inputmode="decimal" /></label>
+            <label>Term (years)<input type="number" data-k="termYears" value="30" step="1" min="1" inputmode="decimal" /></label>
+            <label>Closing costs $<input type="number" data-k="closing" value="7000" step="250" min="0" inputmode="decimal" /></label>
+            <label>HELOC rate %<input type="number" data-k="helocRatePct" value="6.44" step="0.05" min="0" inputmode="decimal" /></label>
+            <label>DSCR floor<input type="number" data-k="dscrFloor" value="1.00" step="0.05" min="0" inputmode="decimal" /></label>
+          </div>
+          <label class="chk"><input type="checkbox" data-k="helocFunded" checked /> Down payment + closing + rehab drawn on HELOC (interest-only)</label>
+
+          <h2>Operating</h2>
+          <div class="grid2">
+            <label>Vacancy % rent<input type="number" data-k="vacancyPct" value="5" step="1" min="0" inputmode="decimal" /></label>
+            <label>Maint + capex % rent<input type="number" data-k="maintenancePct" value="10" step="1" min="0" inputmode="decimal" /></label>
+          </div>
+
+          <div class="inv-actions">
+            <button class="mbtn default" id="btn-save" type="button">Save to Portfolio</button>
+            <button class="mbtn" id="btn-copy" type="button">Copy Summary</button>
+            <button class="mbtn" id="btn-new" type="button">New Deal</button>
+            <button class="mbtn" id="btn-defaults" type="button" title="Remember financing + operating terms for next time">Save as Defaults</button>
+          </div>
+        </form>
+
+        <!-- ============ results ============ -->
+        <div class="inv-results">
+          <div class="verdict" id="r-verdict-box">
+            <span class="chip" id="r-chip">—</span>
+            <span id="r-verdict">Enter a deal.</span>
+          </div>
+
+          <div class="dscr-meter">
+            <div class="dscr-num"><b id="r-dscr">—</b><span> DSCR</span></div>
+            <div class="bar"><i id="r-bar"></i><em id="r-floor-mark"></em></div>
+            <div class="bar-lbl"><span>0</span><span id="r-floor-lbl">floor 1.00</span><span>2.0+</span></div>
+          </div>
+
+          <table class="rtab">
+            <tbody>
+              <tr><td>Loan (<span id="r-ltv">75</span>% LTV)</td><td id="r-loan">—</td></tr>
+              <tr><td>P&amp;I</td><td id="r-pi">—</td></tr>
+              <tr><td>Taxes /mo</td><td id="r-taxes">—</td></tr>
+              <tr><td>Insurance + HOA /mo</td><td id="r-inshoa">—</td></tr>
+              <tr class="sum"><td>PITIA /mo</td><td id="r-pitia">—</td></tr>
+              <tr><td>HELOC draw</td><td id="r-helocdraw">—</td></tr>
+              <tr><td>HELOC interest-only /mo</td><td id="r-helocpmt">—</td></tr>
+              <tr class="sum"><td>Cash flow before reserves</td><td id="r-carry">—</td></tr>
+              <tr><td>Vacancy + maint reserve /mo</td><td id="r-reserves">—</td></tr>
+              <tr class="sum"><td>Cash flow all-in</td><td id="r-carry2">—</td></tr>
+              <tr><td>…per year</td><td id="r-carry2yr">—</td></tr>
+              <tr><td>All-in basis</td><td id="r-basis">—</td></tr>
+              <tr><td>Max offer @ DSCR floor</td><td id="r-maxdscr">—</td></tr>
+              <tr><td>Max offer break-even</td><td id="r-maxbe">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============ sensitivity ============ -->
+      <h2 class="sect">Offer sensitivity</h2>
+      <table class="flist" id="sens">
+        <thead><tr><th>Offer</th><th>DSCR</th><th>HELOC draw</th><th>Carry /mo</th><th>All-in /mo</th><th>Basis</th><th></th></tr></thead>
+        <tbody id="sens-body"></tbody>
+      </table>
+
+      <!-- ============ portfolio ============ -->
+      <h2 class="sect">Portfolio <span class="hint-inline">— click a row to load it</span></h2>
+      <table class="flist" id="pf">
+        <thead><tr><th>Address</th><th>Price</th><th>Rent</th><th>DSCR</th><th>All-in /mo</th><th></th><th></th></tr></thead>
+        <tbody id="pf-body"></tbody>
+      </table>
+      <div class="inv-actions pf-actions">
+        <button class="mbtn" id="btn-export" type="button">Export JSON</button>
+        <button class="mbtn" id="btn-import" type="button">Import JSON</button>
+        <input type="file" id="f-import" accept="application/json,.json" hidden />
+      </div>
+
+    </div>
+  </MacWindow>
+</Desktop>
+
+<style>
+  :global(#win-invest .wbody) { display: flex; flex-direction: column; }
+  .inv { padding: 12px 16px 20px; font-size: 12.5px; }
+
+  /* address row */
+  .inv-addr { display: flex; gap: 8px; }
+  .inv-addr input { flex: 1; }
+  .inv-note { font-size: 11.5px; color: #333; min-height: 1.2em; margin: 4px 0 0; font-style: italic; }
+  .inv-api { margin: 6px 0 10px; font-size: 11.5px; }
+  .inv-api summary { cursor: pointer; font-family: var(--geneva); color: #444; }
+  .inv-api p { margin: 6px 0; max-width: 60ch; color: #333; }
+  .inv-api-row { display: flex; gap: 8px; }
+  .inv-api-row input { flex: 1; max-width: 340px; font-family: var(--mono); font-size: 11px; }
+
+  /* two columns: form | results */
+  .inv-cols { display: grid; grid-template-columns: 340px 1fr; gap: 20px; margin-top: 8px; }
+
+  .inv-form h2, .sect {
+    font-family: var(--chicago); font-size: 14px; font-weight: normal;
+    border-bottom: 1px solid #000; padding-bottom: 3px; margin: 14px 0 8px;
+  }
+  .inv-form h2:first-child { margin-top: 0; }
+  .hint-inline { font-family: var(--geneva); font-size: 11px; font-style: italic; color: #555; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+  .inv label { display: flex; flex-direction: column; gap: 2px; font-size: 11.5px; color: #333; }
+  .inv label.chk { flex-direction: row; align-items: center; gap: 6px; margin-top: 8px; color: #000; }
+  .inv input[type='text'], .inv input[type='number'] {
+    font-family: var(--geneva); font-size: 13px; color: #000;
+    background: #fff; border: 1px solid #000; border-radius: 0;
+    padding: 4px 6px; width: 100%;
+  }
+  .inv input:focus { outline: 2px solid #000; outline-offset: -1px; }
+  html[data-scheme='color'] .inv input:focus { outline-color: var(--hl); }
+  .hint { font-size: 11px; font-style: italic; color: #555; margin: 6px 0 0; }
+
+  .inv-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; align-items: center; }
+  .pf-actions { margin-top: 10px; }
+
+  /* results */
+  .verdict { display: flex; align-items: center; gap: 10px; border: 2px solid #000; padding: 10px 12px; font-family: var(--chicago); font-size: 14px; }
+  .chip { font-family: var(--chicago); font-size: 12px; border: 1px solid #000; padding: 2px 10px; background: #fff; white-space: nowrap; }
+  .chip.pass { background: #000; color: #fff; }
+  .chip.fail { background: #fff; color: #000; }
+  .chip.bleed { background: repeating-linear-gradient(45deg, #fff 0 3px, #ddd 3px 6px); }
+  html[data-scheme='color'] .chip.pass { background: #2e7f5e; border-color: #2e7f5e; color: #fff; }
+  html[data-scheme='color'] .chip.fail { background: #b03a2e; border-color: #b03a2e; color: #fff; }
+  html[data-scheme='color'] .chip.bleed { background: #d9892b; border-color: #d9892b; color: #fff; }
+
+  .dscr-meter { margin: 14px 2px 12px; }
+  .dscr-num { font-family: var(--chicago); font-size: 13px; margin-bottom: 4px; }
+  .dscr-num b { font-size: 24px; font-weight: normal; }
+  .dscr-meter .bar { height: 14px; border: 1px solid #000; position: relative; }
+  .dscr-meter .bar i {
+    position: absolute; inset: 1px auto 1px 1px; display: block; max-width: calc(100% - 2px);
+    background: repeating-linear-gradient(90deg, #000 0 2px, #fff 2px 4px);
+  }
+  html[data-scheme='color'] .dscr-meter .bar i { background: #33569c; }
+  .dscr-meter .bar em { position: absolute; top: -3px; bottom: -3px; width: 2px; background: #000; }
+  .bar-lbl { display: flex; justify-content: space-between; font-size: 10.5px; color: #555; margin-top: 2px; }
+
+  .rtab { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .rtab td { padding: 4px 6px; border-bottom: 1px dotted #999; }
+  .rtab td + td { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .rtab tr.sum td { font-family: var(--chicago); border-bottom: 1px solid #000; }
+  .neg { color: #000; }
+  html[data-scheme='color'] .neg { color: #b03a2e; }
+  html[data-scheme='color'] .pos { color: #2e7f5e; }
+
+  /* sensitivity + portfolio tables reuse .flist; numbers right-aligned */
+  #sens td:not(:first-child), #pf td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  #sens th:not(:first-child), #pf th:not(:first-child) { text-align: right; }
+  .rowlink { cursor: pointer; }
+  .rowlink:hover td { background: #000; color: #fff; }
+  :global(html[data-scheme='color']) .rowlink:hover td { background: var(--hl); }
+  .xbtn { font-family: var(--chicago); font-size: 11px; border: 1px solid #000; background: #fff; cursor: pointer; padding: 0 6px; line-height: 1.4; }
+  .xbtn:active { background: #000; color: #fff; }
+  .empty td { color: #777; font-style: italic; }
+
+  @media (max-width: 860px) {
+    .inv-cols { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .grid2 { grid-template-columns: 1fr 1fr; }
+    .inv { padding: 10px 10px 16px; }
+  }
+</style>
+
+<script>
+  import { analyze, sensitivity, summarize, fmtUSD, type DealInputs } from '../lib/invest/model';
+  import { loadDeals, upsertDeal, deleteDeal, exportDeals, importDeals, loadFinancingDefaults, saveFinancingDefaults, getApiKey, setApiKey } from '../lib/invest/store';
+  import { lookupAddress } from '../lib/invest/rentcast';
+
+  const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
+  const fields = Array.from(document.querySelectorAll<HTMLInputElement>('#win-invest [data-k]'));
+
+  const DEFAULT_KEYS: (keyof DealInputs)[] = [
+    'ltvPct', 'ratePct', 'termYears', 'closing', 'helocRatePct', 'helocFunded',
+    'dscrFloor', 'taxRatePct', 'insurance', 'vacancyPct', 'maintenancePct',
+  ];
+
+  function readInputs(): DealInputs {
+    const i: Record<string, unknown> = {};
+    for (const el of fields) {
+      const k = el.dataset.k!;
+      if (el.type === 'checkbox') i[k] = el.checked;
+      else if (el.type === 'text') i[k] = el.value;
+      else {
+        const v = parseFloat(el.value);
+        i[k] = Number.isFinite(v) ? v : 0;
+      }
+    }
+    return i as unknown as DealInputs;
+  }
+
+  function writeInputs(i: Partial<DealInputs>) {
+    for (const el of fields) {
+      const k = el.dataset.k! as keyof DealInputs;
+      if (!(k in i) || i[k] === undefined) continue;
+      if (el.type === 'checkbox') el.checked = Boolean(i[k]);
+      else el.value = String(i[k]);
+    }
+  }
+
+  // flow=true marks a cash-flow line: red when negative, green when positive.
+  // Cost/size lines stay black regardless of sign.
+  function money(el: HTMLElement, n: number, perMo = false, flow = false) {
+    el.textContent = fmtUSD(n) + (perMo ? '/mo' : '');
+    el.classList.toggle('neg', flow && n < 0);
+    el.classList.toggle('pos', flow && n > 0);
+  }
+
+  function render() {
+    const i = readInputs();
+    const r = analyze(i);
+
+    $('#r-ltv').textContent = String(i.ltvPct);
+    money($('#r-loan'), r.loan);
+    money($('#r-pi'), r.pi, true);
+    money($('#r-taxes'), r.taxes, true);
+    money($('#r-inshoa'), i.insurance + i.hoa, true);
+    money($('#r-pitia'), r.pitia, true);
+    money($('#r-helocdraw'), r.helocDraw);
+    money($('#r-helocpmt'), r.helocPmt, true);
+    money($('#r-carry'), r.carry, true, true);
+    money($('#r-reserves'), -r.reserves, true);
+    money($('#r-carry2'), r.carryAfterReserves, true, true);
+    money($('#r-carry2yr'), r.carryAfterReserves * 12, false, true);
+    $('#r-basis').textContent = fmtUSD(r.allInBasis) + (i.marketValue > 0 ? ` vs mkt ${fmtUSD(i.marketValue)}` : '');
+    money($('#r-maxdscr'), r.maxOfferDscr);
+    money($('#r-maxbe'), r.maxOfferBreakEven);
+
+    // DSCR meter (0 → 2.0 scale, marker at the floor)
+    $('#r-dscr').textContent = r.pitia > 0 ? r.dscr.toFixed(2) : '—';
+    $('#r-bar').style.width = `${Math.min(r.dscr / 2, 1) * 100}%`;
+    $('#r-floor-mark').style.left = `${Math.min(i.dscrFloor / 2, 1) * 100}%`;
+    $('#r-floor-lbl').textContent = `floor ${i.dscrFloor.toFixed(2)}`;
+
+    // verdict
+    const chip = $('#r-chip');
+    chip.classList.remove('pass', 'fail', 'bleed');
+    if (i.price <= 0 || i.rent <= 0) {
+      chip.textContent = '—';
+      $('#r-verdict').textContent = 'Enter price and rent to run the numbers.';
+    } else if (r.verdict === 'fail') {
+      chip.textContent = 'FAILS DSCR';
+      chip.classList.add('fail');
+      $('#r-verdict').textContent = `${r.dscr.toFixed(2)} vs ${i.dscrFloor.toFixed(2)} floor — lender says no.`;
+    } else if (r.verdict === 'bleed') {
+      chip.textContent = 'BLEEDS';
+      chip.classList.add('bleed');
+      $('#r-verdict').textContent = `Qualifies at ${r.dscr.toFixed(2)}, but loses ${fmtUSD(Math.abs(r.carryAfterReserves))}/mo all-in.`;
+    } else {
+      chip.textContent = 'CLEARS';
+      chip.classList.add('pass');
+      $('#r-verdict').textContent = `DSCR ${r.dscr.toFixed(2)}, ${fmtUSD(r.carryAfterReserves)}/mo all-in.`;
+    }
+
+    // sensitivity grid
+    const body = $('#sens-body');
+    body.innerHTML = '';
+    if (i.price > 0) {
+      for (const row of sensitivity(i)) {
+        const tr = document.createElement('tr');
+        const cells = [
+          fmtUSD(row.offer),
+          row.dscr.toFixed(2),
+          fmtUSD(row.helocDraw),
+          fmtUSD(row.carry),
+          fmtUSD(row.carryAfterReserves),
+          fmtUSD(row.allInBasis),
+          row.clears ? '✓' : '✗',
+        ];
+        cells.forEach((c, n) => {
+          const td = document.createElement('td');
+          td.textContent = c;
+          if ((n === 3 || n === 4) && c.startsWith('−')) td.classList.add('neg');
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      }
+    }
+  }
+
+  function renderPortfolio() {
+    const body = $('#pf-body');
+    body.innerHTML = '';
+    const deals = loadDeals();
+    if (!deals.length) {
+      body.innerHTML = '<tr class="empty"><td colspan="7">No saved deals yet — run one and hit “Save to Portfolio”.</td></tr>';
+      return;
+    }
+    for (const d of deals) {
+      const r = analyze(d.inputs);
+      const tr = document.createElement('tr');
+      tr.className = 'rowlink';
+      const chip = r.verdict === 'pass' ? 'CLEARS' : r.verdict === 'bleed' ? 'BLEEDS' : 'FAILS';
+      const cells = [
+        d.inputs.address || '(unnamed)',
+        fmtUSD(d.inputs.price),
+        fmtUSD(d.inputs.rent),
+        r.pitia > 0 ? r.dscr.toFixed(2) : '—',
+        fmtUSD(r.carryAfterReserves),
+        chip,
+      ];
+      cells.forEach((c, n) => {
+        const td = document.createElement('td');
+        td.textContent = c;
+        if (n === 0) td.className = 'nm';
+        if (n === 4 && c.startsWith('−')) td.classList.add('neg');
+        tr.appendChild(td);
+      });
+      const tdX = document.createElement('td');
+      const x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'xbtn';
+      x.textContent = '✕';
+      x.title = 'Remove from portfolio';
+      x.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteDeal(d.id);
+        renderPortfolio();
+      });
+      tdX.appendChild(x);
+      tr.appendChild(tdX);
+      tr.addEventListener('click', () => {
+        writeInputs(d.inputs);
+        render();
+        $('#win-invest').scrollIntoView();
+      });
+      body.appendChild(tr);
+    }
+  }
+
+  function note(msg: string) {
+    $('#lk-note').textContent = msg;
+  }
+
+  /* ---- wire up ---- */
+  const saved = loadFinancingDefaults();
+  if (saved) writeInputs(saved);
+  ($('#f-apikey') as HTMLInputElement).value = getApiKey();
+
+  fields.forEach((el) => el.addEventListener('input', render));
+
+  $('#btn-save').addEventListener('click', () => {
+    const i = readInputs();
+    if (!i.address.trim()) {
+      note('Give the deal an address or nickname before saving.');
+      $('#f-address').focus();
+      return;
+    }
+    upsertDeal(i);
+    renderPortfolio();
+    note(`Saved “${i.address.trim()}” to portfolio.`);
+  });
+
+  $('#btn-new').addEventListener('click', () => {
+    writeInputs({
+      address: '', price: 0, marketValue: 0, rent: 0, rehab: 0, hoa: 0,
+      taxMonthly: 0,
+      ...(loadFinancingDefaults() ?? {}),
+    });
+    render();
+    note('');
+    $('#f-address').focus();
+  });
+
+  $('#btn-defaults').addEventListener('click', () => {
+    const i = readInputs();
+    const d: Partial<DealInputs> = {};
+    for (const k of DEFAULT_KEYS) (d as Record<string, unknown>)[k] = i[k];
+    saveFinancingDefaults(d);
+    note('Financing + operating terms saved as defaults for this browser.');
+  });
+
+  $('#btn-copy').addEventListener('click', async () => {
+    const i = readInputs();
+    const text = summarize(i, analyze(i));
+    try {
+      await navigator.clipboard.writeText(text);
+      note('Summary copied — paste it into a message.');
+    } catch {
+      note('Clipboard blocked — summary printed to console instead.');
+      console.log(text);
+    }
+  });
+
+  $('#btn-export').addEventListener('click', () => {
+    const blob = new Blob([exportDeals()], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'deal-portfolio.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+
+  $('#btn-import').addEventListener('click', () => $('#f-import').click());
+  $('#f-import').addEventListener('change', async () => {
+    const file = ($('#f-import') as HTMLInputElement).files?.[0];
+    if (!file) return;
+    try {
+      const n = importDeals(await file.text());
+      renderPortfolio();
+      note(`Imported ${n} deal${n === 1 ? '' : 's'}.`);
+    } catch {
+      note('Import failed — that file is not a portfolio export.');
+    }
+    ($('#f-import') as HTMLInputElement).value = '';
+  });
+
+  $('#btn-savekey').addEventListener('click', () => {
+    setApiKey(($('#f-apikey') as HTMLInputElement).value.trim());
+    note(getApiKey() ? 'API key saved in this browser.' : 'API key cleared.');
+  });
+
+  $('#btn-lookup').addEventListener('click', async () => {
+    const address = readInputs().address.trim();
+    const key = getApiKey();
+    if (!address) return note('Type an address first.');
+    if (!key) return note('No API key — open “RentCast API key” below and save one, or enter numbers manually.');
+    note('Looking up… (3 API requests)');
+    try {
+      const lk = await lookupAddress(address, key);
+      const patch: Partial<DealInputs> = {};
+      if (lk.valueEstimate) { patch.price = Math.round(lk.valueEstimate); patch.marketValue = Math.round(lk.valueEstimate); }
+      if (lk.rentEstimate) patch.rent = Math.round(lk.rentEstimate);
+      writeInputs(patch);
+      render();
+      const bits: string[] = [];
+      if (lk.valueEstimate) bits.push(`value ${fmtUSD(lk.valueEstimate)} (${fmtUSD(lk.valueLow ?? 0)}–${fmtUSD(lk.valueHigh ?? 0)})`);
+      if (lk.rentEstimate) bits.push(`rent ${fmtUSD(lk.rentEstimate)}/mo (${fmtUSD(lk.rentLow ?? 0)}–${fmtUSD(lk.rentHigh ?? 0)})`);
+      if (lk.beds) bits.push(`${lk.beds}bd/${lk.baths ?? '?'}ba ${lk.sqft ?? '?'}sqft ${lk.yearBuilt ?? ''}`);
+      if (lk.lastTaxAnnual) bits.push(`${lk.lastTaxYear} taxes ${fmtUSD(lk.lastTaxAnnual)}/yr — likely owner-occ 4% rate, NOT auto-filled (investor = 6%)`);
+      bits.push(...lk.errors.map((e) => `⚠ ${e}`));
+      note(bits.length ? bits.join(' · ') : 'No data returned for that address.');
+    } catch (err) {
+      note(`Lookup failed (${err instanceof Error ? err.message : 'network'}) — enter numbers manually.`);
+    }
+  });
+
+  render();
+  renderPortfolio();
+</script>

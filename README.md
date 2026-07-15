@@ -37,6 +37,33 @@ playable classics, both fully self-hosted:
   (ISC-licensed code), in `public/prince/`. Prince of Persia © 1990
   Brøderbund.
 
+## 🏠 Deal Runner (unlisted)
+
+`/invest/` is a **rental-deal analyzer** — DSCR + cash-flow model for
+screening investment properties. It's unlisted: no desktop icon, no menu
+entry, excluded from the sitemap and marked `noindex`. Only people with the
+URL find it.
+
+- **The model** mirrors DSCR-lender underwriting: DSCR = rent ÷ PITIA of the
+  DSCR loan leg only; the HELOC that funds the down payment (+ closing +
+  rehab) sits outside the ratio but inside real cash flow.
+- **Inputs**: price, rent, rehab, HOA, insurance, taxes (SC 6% investor-ratio
+  estimate or manual $/mo), LTV, rates, closing, DSCR floor, vacancy and
+  maintenance reserves.
+- **Outputs**: DSCR vs floor, monthly/annual carry before and after reserves,
+  all-in basis vs market value, max offer that clears the DSCR floor, max
+  offer for break-even carry, and an offer-sensitivity grid.
+- **Portfolio**: save deals, compare side by side, export/import JSON.
+  Everything lives in the browser's localStorage — nothing is committed to
+  this (public) repo.
+- **Address lookup (optional)**: paste a free
+  [RentCast](https://app.rentcast.io/app/api) API key (stored in
+  localStorage only) and "Look Up" fills value + rent estimates. Manual
+  entry always works without it.
+
+Code: `src/pages/invest.astro` (UI) and `src/lib/invest/`
+(`model.ts` pure math, `store.ts` persistence, `rentcast.ts` lookup).
+
 ## ✍️ Writing a blog post (3 steps)
 
 1. Create a new file in `src/content/blog/`, e.g. `my-post.md`:

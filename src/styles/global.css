@@ -178,6 +178,7 @@ html[data-scheme='color'] .i-mail   { --c-env: #f6eedf; }
 html[data-scheme='color'] .i-trash  { --c-trash: #d9d9e0; }
 html[data-scheme='color'] .i-floppy { --c-flop: #8496c4; }
 html[data-scheme='color'] .i-games  { --c-folder: #f2dfa7; --c-btn: #b03a2e; }
+html[data-scheme='color'] .i-book   { --c-book: #f6eedf; }
 html[data-scheme='color'] .i-warn   { --c-warn: #ffd34d; }
 html[data-scheme='color'] .i-stack  { --c-card: #fff3c4; }
 

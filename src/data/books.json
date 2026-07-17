@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "build",
+    "title": "Build",
+    "subtitle": "An Unorthodox Guide to Making Things Worth Making",
+    "author": "Tony Fadell",
+    "color": "#d9892b",
+    "why": "The best book ever written about the messy, human side of building products. Fadell (iPod, iPhone, Nest) writes like the mentor who tells you the things nobody puts in slides — when to quit, how to handle a board, why your first version should embarrass you. I hand this to every new product leader I hire."
+  },
+  {
+    "slug": "good-strategy-bad-strategy",
+    "title": "Good Strategy / Bad Strategy",
+    "subtitle": "The Difference and Why It Matters",
+    "author": "Richard Rumelt",
+    "color": "#33569c",
+    "why": "This book ruined most strategy decks for me, permanently. Once Rumelt shows you the kernel — diagnosis, guiding policy, coherent action — you can't unsee the fluff that passes for strategy in most companies. I re-read it before every annual planning cycle, and it earns its keep every time."
+  },
+  {
+    "slug": "working-backwards",
+    "title": "Working Backwards",
+    "subtitle": "Insights, Stories, and Secrets from Inside Amazon",
+    "author": "Colin Bryar & Bill Carr",
+    "color": "#2e7f5e",
+    "why": "I lived this one from the inside during four years at Amazon. PR/FAQs, six-pagers, single-threaded leaders, input metrics — this is the actual operating system behind the machine, explained honestly by two people who helped build it. If you want to understand why Amazon ships the way it ships, start here."
+  },
+  {
+    "slug": "inspired",
+    "title": "Inspired",
+    "subtitle": "How to Create Tech Products Customers Love",
+    "author": "Marty Cagan",
+    "color": "#8496c4",
+    "why": "The book that professionalized product management. Empowered teams over feature factories, discovery over roadmap theater — Cagan gave my teams a shared vocabulary for what good looks like. I trained with SVPG and still measure product orgs, including my own, against this book."
+  },
+  {
+    "slug": "radical-candor",
+    "title": "Radical Candor",
+    "subtitle": "Be a Kick-Ass Boss Without Losing Your Humanity",
+    "author": "Kim Scott",
+    "color": "#b03a2e",
+    "why": "Care personally, challenge directly — the framework I lean on every time I have to say something hard to someone I respect. Leading a 40+ person organization across three continents, this book is the difference between a culture of feedback and a culture of silence. Simple idea, brutally hard practice."
+  }
+]

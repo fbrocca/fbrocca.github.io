@@ -19,6 +19,7 @@ default (Macintosh II style); switch to 1-bit black & white via
 | Writing | `/blog/` | Blog as a Finder list; posts open as documents |
 | Media | `/media/` | Podcasts & keynotes |
 | Photos | `/photos/` | Scrapbook (photos, one per page) |
+| Books | `/books/` | Recommended books with covers and why-I-loved-it notes |
 | Contact | `/contact/` | Contact dialog |
 | Trash | `/trash/` | The old Star Wars theme, resting honorably |
 
@@ -91,6 +92,10 @@ mode and dithered monochrome in 1-BIT mode.
 
 To add more Scrapbook photos, add an entry to the `photos` array in
 `src/pages/photos.astro`.
+
+Book covers: drop `<slug>.jpg` files (2:3 portrait) into
+`public/images/books/` — slugs are in `src/data/books.json`. Until then
+each book shows a styled typographic cover.
 
 ## 📄 Résumé download
 

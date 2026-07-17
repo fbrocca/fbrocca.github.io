@@ -1,0 +1,114 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Desktop from '../layouts/Desktop.astro';
+import MacWindow from '../components/MacWindow.astro';
+import books from '../data/books.json';
+
+// real cover (public/images/books/<slug>.jpg) when present, typographic
+// paperback fallback otherwise — checked at build time like SmartImage
+const withCovers = books.map((b) => ({
+  ...b,
+  cover: fs.existsSync(path.join(process.cwd(), 'public', 'images', 'books', `${b.slug}.jpg`))
+    ? `/images/books/${b.slug}.jpg`
+    : null,
+}));
+---
+<Desktop
+  title="Books — Fabio Brocca"
+  description="Fabio Brocca's most recommended books on product, strategy, and leadership: Build, Good Strategy Bad Strategy, Working Backwards, Inspired, Radical Candor."
+>
+  <MacWindow title="Books" id="win-books" style="left:calc(50vw - 360px); top:52px; width:720px; height:660px" zoom={true}>
+    <div class="fstatus">{books.length} items · the shelf I actually recommend, not the one that looks good</div>
+    <div class="doc" style="max-width:none">
+      {withCovers.map((b) => (
+        <div class="book">
+          {b.cover ? (
+            <img class="cover" src={b.cover} alt={`Cover of ${b.title} by ${b.author}`} loading="lazy" />
+          ) : (
+            <div class="cover cover-typo" style={`--book-color:${b.color}`} role="img" aria-label={`Cover of ${b.title} by ${b.author}`}>
+              <span class="c-title">{b.title}</span>
+              <span class="c-rule"></span>
+              <span class="c-author">{b.author}</span>
+            </div>
+          )}
+          <div class="about">
+            <h2>{b.title}</h2>
+            <p class="meta">{b.subtitle} · <b>{b.author}</b></p>
+            <p class="why">{b.why}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </MacWindow>
+</Desktop>
+
+<style>
+  .book {
+    display: flex;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid #000;
+    align-items: flex-start;
+  }
+  .book:last-child { border-bottom: 0; }
+
+  .cover {
+    flex: none;
+    width: 118px;
+    aspect-ratio: 2 / 3;
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+    object-fit: cover;
+    background: #fff;
+  }
+  :global(html:not([data-scheme='color'])) img.cover { filter: grayscale(1) contrast(1.1); }
+
+  /* typographic paperback fallback until a real cover is dropped in */
+  .cover-typo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 10px 8px;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.22) 0, rgba(0, 0, 0, 0.22) 5px, transparent 5px),
+      var(--book-color, #888);
+  }
+  :global(html:not([data-scheme='color'])) .cover-typo {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0, rgba(0, 0, 0, 0.35) 5px, transparent 5px),
+      repeating-linear-gradient(45deg, #fff 0 3px, #ddd 3px 6px);
+  }
+  .cover-typo .c-title {
+    font-family: var(--chicago);
+    font-size: 13px;
+    line-height: 1.25;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  }
+  .cover-typo .c-rule { width: 60%; border-top: 1px solid rgba(255, 255, 255, 0.75); }
+  .cover-typo .c-author {
+    font-family: var(--geneva);
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  }
+  :global(html:not([data-scheme='color'])) .cover-typo .c-title,
+  :global(html:not([data-scheme='color'])) .cover-typo .c-author {
+    color: #000;
+    text-shadow: none;
+  }
+  :global(html:not([data-scheme='color'])) .cover-typo .c-rule { border-top-color: #000; }
+
+  .about { flex: 1; min-width: 0; }
+  .about h2 { margin-top: 0; }
+  .about .why { margin-top: 0.6em; }
+
+  @media (max-width: 720px) {
+    .book { flex-direction: column; }
+    .cover { width: 40%; max-width: 150px; }
+  }
+</style>

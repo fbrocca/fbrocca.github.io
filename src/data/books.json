@@ -38,5 +38,77 @@
     "author": "Kim Scott",
     "color": "#b03a2e",
     "why": "Care personally, challenge directly — the framework I lean on every time I have to say something hard to someone I respect. Leading a 40+ person organization across three continents, this book is the difference between a culture of feedback and a culture of silence. Simple idea, brutally hard practice."
+  },
+  {
+    "slug": "design-of-everyday-things",
+    "title": "The Design of Everyday Things",
+    "subtitle": "Revised & Expanded Edition",
+    "author": "Don Norman",
+    "color": "#3f8a8a",
+    "why": "The book that taught me to blame the design, not the user. Affordances, signifiers, the infamous \"Norman door\" — once you have this language you see bad design everywhere, including in your own products. As an engineer who lives where physical operations meet software, this is foundational."
+  },
+  {
+    "slug": "creativity-inc",
+    "title": "Creativity, Inc.",
+    "subtitle": "Overcoming the Unseen Forces That Stand in the Way of True Inspiration",
+    "author": "Ed Catmull",
+    "color": "#6b4e9c",
+    "why": "Catmull built Pixar and spends the book explaining how to protect a creative culture from the forces that quietly kill it. \"Early on, all our movies suck\" — the honesty of that, and the Braintrust that fixes it, changed how I run product reviews. Candor as a system, not a personality trait."
+  },
+  {
+    "slug": "how-to-win-friends",
+    "title": "How to Win Friends & Influence People",
+    "subtitle": "The Only Book You Need to Lead You to Success",
+    "author": "Dale Carnegie",
+    "color": "#d9892b",
+    "why": "Written in 1936 and still the sharpest thing on influence I've read. I started at the export desk at MSC — every promotion after that came from getting things done through people who didn't report to me. This book is where that skill starts. Skip nothing because it sounds obvious; obvious and practiced are very different."
+  },
+  {
+    "slug": "invent-and-wander",
+    "title": "Invent and Wander",
+    "subtitle": "The Collected Writings of Jeff Bezos",
+    "author": "Jeff Bezos, with Walter Isaacson",
+    "color": "#2e7f5e",
+    "why": "Every Amazon shareholder letter in one place — Day 1, customer obsession, disagree and commit, the long-term bets. I spent four years inside the machine these letters describe; reading them end to end shows how consistent the operating philosophy stayed for 25 years. The best companion to Working Backwards."
+  },
+  {
+    "slug": "trillion-dollar-coach",
+    "title": "Trillion Dollar Coach",
+    "subtitle": "The Leadership Playbook of Silicon Valley's Bill Campbell",
+    "author": "Eric Schmidt, Jonathan Rosenberg & Alan Eagle",
+    "color": "#b0472e",
+    "why": "The playbook of Bill Campbell, the coach behind Jobs, Bezos, and the Google founders. It's really a book about leading through people — building teams, running one-on-ones, caring about the human first. The reminder every executive needs that your job is to make the people around you better."
+  },
+  {
+    "slug": "multipliers",
+    "title": "Multipliers",
+    "subtitle": "How the Best Leaders Make Everyone Smarter",
+    "author": "Liz Wiseman",
+    "color": "#4a6fa5",
+    "why": "Some leaders are Multipliers who make everyone around them smarter; others are Diminishers who drain the room without realizing it. Building a 40+ person org, I keep this framework close as a mirror — it's uncomfortably easy to accidentally be the smartest-person-in-the-room Diminisher. Read it to catch yourself."
+  },
+  {
+    "slug": "hard-thing-about-hard-things",
+    "title": "The Hard Thing About Hard Things",
+    "subtitle": "Building a Business When There Are No Easy Answers",
+    "author": "Ben Horowitz",
+    "color": "#33569c",
+    "why": "The most honest book about leadership when everything is on fire. Layoffs, demotions, the loneliness of the decision that has no good option — Horowitz writes about the parts no one puts on a conference stage. When I've had my hardest weeks, this is the book that made me feel less alone in them."
+  },
+  {
+    "slug": "turn-the-ship-around",
+    "title": "Turn the Ship Around!",
+    "subtitle": "A True Story of Turning Followers into Leaders",
+    "author": "L. David Marquet",
+    "color": "#7a913f",
+    "why": "A submarine captain stops giving orders and starts giving intent — and the worst-performing sub in the fleet becomes the best. Intent-based leadership, pushing decisions to where the information lives, is the operational twin of everything I believe about empowered product teams. A short book that rewires how you delegate."
+  },
+  {
+    "slug": "play-bigger",
+    "title": "Play Bigger",
+    "subtitle": "How Pirates, Dreamers, and Innovators Create and Dominate Markets",
+    "author": "Ramadan, Peterson, Lochhead & Maney",
+    "color": "#c25a2e",
+    "why": "Category design: the best companies don't win a market, they create a new one and become its king. This is close to home — at Xeneta we're building the category of freight rate intelligence, from benchmarking to industry-first derivatives. If you're defining a market rather than competing in one, this is the map."
   }
 ]

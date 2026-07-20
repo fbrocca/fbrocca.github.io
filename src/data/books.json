@@ -6,7 +6,7 @@
     "author": "Tony Fadell",
     "isbn": "9780063046061",
     "color": "#d9892b",
-    "why": "The best book ever written about the messy, human side of building products. Fadell (iPod, iPhone, Nest) writes like the mentor who tells you the things nobody puts in slides — when to quit, how to handle a board, why your first version should embarrass you. I hand this to every new product leader I hire."
+    "why": "The best book ever written about the messy, human side of building products. Fadell (iPod, iPhone, Nest) writes like the mentor who tells you the things nobody puts in slides: when to quit, how to handle a board, why your first version should embarrass you. I hand this to every new product leader I hire."
   },
   {
     "slug": "good-strategy-bad-strategy",
@@ -15,7 +15,7 @@
     "author": "Richard Rumelt",
     "isbn": "9780307886231",
     "color": "#33569c",
-    "why": "This book ruined most strategy decks for me, permanently. Once Rumelt shows you the kernel — diagnosis, guiding policy, coherent action — you can't unsee the fluff that passes for strategy in most companies. I re-read it before every annual planning cycle, and it earns its keep every time."
+    "why": "This book ruined most strategy decks for me, permanently. Once Rumelt shows you the kernel (diagnosis, guiding policy, coherent action) you can't unsee the fluff that passes for strategy in most companies. I re-read it before every annual planning cycle, and it earns its keep every time."
   },
   {
     "slug": "working-backwards",
@@ -24,7 +24,7 @@
     "author": "Colin Bryar & Bill Carr",
     "isbn": "9781250267597",
     "color": "#2e7f5e",
-    "why": "I lived this one from the inside during four years at Amazon. PR/FAQs, six-pagers, single-threaded leaders, input metrics — this is the actual operating system behind the machine, explained honestly by two people who helped build it. If you want to understand why Amazon ships the way it ships, start here."
+    "why": "I lived this one from the inside during four years at Amazon. PR/FAQs, six-pagers, single-threaded leaders, input metrics. It's the actual operating system behind the machine, explained honestly by two people who helped build it. If you want to understand why Amazon ships the way it ships, start here."
   },
   {
     "slug": "inspired",
@@ -33,7 +33,7 @@
     "author": "Marty Cagan",
     "isbn": "9781119387503",
     "color": "#8496c4",
-    "why": "The book that professionalized product management. Empowered teams over feature factories, discovery over roadmap theater — Cagan gave my teams a shared vocabulary for what good looks like. I trained with SVPG and still measure product orgs, including my own, against this book."
+    "why": "The book that professionalized product management. Empowered teams over feature factories, discovery over roadmap theater. Cagan gave my teams a shared vocabulary for what good looks like. I trained with SVPG and still measure product orgs, including my own, against this book."
   },
   {
     "slug": "radical-candor",
@@ -42,7 +42,7 @@
     "author": "Kim Scott",
     "isbn": "9781250103505",
     "color": "#b03a2e",
-    "why": "Care personally, challenge directly — the framework I lean on every time I have to say something hard to someone I respect. Leading a 40+ person organization across three continents, this book is the difference between a culture of feedback and a culture of silence. Simple idea, brutally hard practice."
+    "why": "Care personally, challenge directly. It's the framework I lean on every time I have to say something hard to someone I respect. Leading a 40+ person organization across three continents, this book is the difference between a culture of feedback and a culture of silence. Simple idea, brutally hard practice."
   },
   {
     "slug": "design-of-everyday-things",
@@ -51,7 +51,7 @@
     "author": "Don Norman",
     "isbn": "9780465050659",
     "color": "#3f8a8a",
-    "why": "The book that taught me to blame the design, not the user. Affordances, signifiers, the infamous \"Norman door\" — once you have this language you see bad design everywhere, including in your own products. As an engineer who lives where physical operations meet software, this is foundational."
+    "why": "The book that taught me to blame the design, not the user. Affordances, signifiers, the infamous \"Norman door.\" Once you have this language you see bad design everywhere, including in your own products. As an engineer who lives where physical operations meet software, this one is foundational."
   },
   {
     "slug": "creativity-inc",
@@ -60,7 +60,7 @@
     "author": "Ed Catmull",
     "isbn": "9780812993011",
     "color": "#6b4e9c",
-    "why": "Catmull built Pixar and spends the book explaining how to protect a creative culture from the forces that quietly kill it. \"Early on, all our movies suck\" — the honesty of that, and the Braintrust that fixes it, changed how I run product reviews. Candor as a system, not a personality trait."
+    "why": "Catmull built Pixar and spends the book explaining how to protect a creative culture from the forces that quietly kill it. \"Early on, all our movies suck.\" The honesty of that, and the Braintrust that fixes it, changed how I run product reviews. Candor as a system, not a personality trait."
   },
   {
     "slug": "how-to-win-friends",
@@ -69,7 +69,7 @@
     "author": "Dale Carnegie",
     "isbn": "9780671027032",
     "color": "#d9892b",
-    "why": "Written in 1936 and still the sharpest thing on influence I've read. I started at the export desk at MSC — every promotion after that came from getting things done through people who didn't report to me. This book is where that skill starts. Skip nothing because it sounds obvious; obvious and practiced are very different."
+    "why": "Written in 1936 and still the sharpest thing on influence I've read. I started at the export desk at MSC, and every promotion after that came from getting things done through people who didn't report to me. This book is where that skill starts. Skip nothing because it sounds obvious; obvious and practiced are very different."
   },
   {
     "slug": "invent-and-wander",
@@ -78,7 +78,7 @@
     "author": "Jeff Bezos, with Walter Isaacson",
     "isbn": "9781647820718",
     "color": "#2e7f5e",
-    "why": "Every Amazon shareholder letter in one place — Day 1, customer obsession, disagree and commit, the long-term bets. I spent four years inside the machine these letters describe; reading them end to end shows how consistent the operating philosophy stayed for 25 years. The best companion to Working Backwards."
+    "why": "Every Amazon shareholder letter in one place: Day 1, customer obsession, disagree and commit, the long-term bets. I spent four years inside the machine these letters describe, and reading them end to end shows how consistent the operating philosophy stayed for 25 years. The best companion to Working Backwards."
   },
   {
     "slug": "trillion-dollar-coach",
@@ -87,7 +87,7 @@
     "author": "Eric Schmidt, Jonathan Rosenberg & Alan Eagle",
     "isbn": "9780062839268",
     "color": "#b0472e",
-    "why": "The playbook of Bill Campbell, the coach behind Jobs, Bezos, and the Google founders. It's really a book about leading through people — building teams, running one-on-ones, caring about the human first. The reminder every executive needs that your job is to make the people around you better."
+    "why": "The playbook of Bill Campbell, the coach behind Jobs, Bezos, and the Google founders. It's really a book about leading through people: building teams, running one-on-ones, caring about the human first. The reminder every executive needs that your job is to make the people around you better."
   },
   {
     "slug": "multipliers",
@@ -96,7 +96,7 @@
     "author": "Liz Wiseman",
     "isbn": "9780061964398",
     "color": "#4a6fa5",
-    "why": "Some leaders are Multipliers who make everyone around them smarter; others are Diminishers who drain the room without realizing it. Building a 40+ person org, I keep this framework close as a mirror — it's uncomfortably easy to accidentally be the smartest-person-in-the-room Diminisher. Read it to catch yourself."
+    "why": "Some leaders are Multipliers who make everyone around them smarter; others are Diminishers who drain the room without realizing it. Building a 40+ person org, I keep this framework close as a mirror. It's uncomfortably easy to accidentally be the smartest-person-in-the-room Diminisher. Read it to catch yourself."
   },
   {
     "slug": "hard-thing-about-hard-things",
@@ -105,7 +105,7 @@
     "author": "Ben Horowitz",
     "isbn": "9780062273208",
     "color": "#33569c",
-    "why": "The most honest book about leadership when everything is on fire. Layoffs, demotions, the loneliness of the decision that has no good option — Horowitz writes about the parts no one puts on a conference stage. When I've had my hardest weeks, this is the book that made me feel less alone in them."
+    "why": "The most honest book about leadership when everything is on fire. Layoffs, demotions, the loneliness of the decision that has no good option. Horowitz writes about the parts no one puts on a conference stage. When I've had my hardest weeks, this is the book that made me feel less alone in them."
   },
   {
     "slug": "turn-the-ship-around",
@@ -114,7 +114,7 @@
     "author": "L. David Marquet",
     "isbn": "9781591846406",
     "color": "#7a913f",
-    "why": "A submarine captain stops giving orders and starts giving intent — and the worst-performing sub in the fleet becomes the best. Intent-based leadership, pushing decisions to where the information lives, is the operational twin of everything I believe about empowered product teams. A short book that rewires how you delegate."
+    "why": "A submarine captain stops giving orders and starts giving intent, and the worst-performing sub in the fleet becomes the best. Intent-based leadership, pushing decisions to where the information lives, is the operational twin of everything I believe about empowered product teams. A short book that rewires how you delegate."
   },
   {
     "slug": "play-bigger",
@@ -123,6 +123,6 @@
     "author": "Ramadan, Peterson, Lochhead & Maney",
     "isbn": "9780062407610",
     "color": "#c25a2e",
-    "why": "Category design: the best companies don't win a market, they create a new one and become its king. This is close to home — at Xeneta we're building the category of freight rate intelligence, from benchmarking to industry-first derivatives. If you're defining a market rather than competing in one, this is the map."
+    "why": "Category design: the best companies don't win a market, they create a new one and become its king. This one is close to home. At Xeneta we're building the category of freight rate intelligence, from benchmarking to industry-first derivatives. If you're defining a market rather than competing in one, this is the map."
   }
 ]
